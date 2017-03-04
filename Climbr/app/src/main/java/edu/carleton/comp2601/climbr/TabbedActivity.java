@@ -104,6 +104,10 @@ public class TabbedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static class MapFragment extends Fragment{
+        
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
