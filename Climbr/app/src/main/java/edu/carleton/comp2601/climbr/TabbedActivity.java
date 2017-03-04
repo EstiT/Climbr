@@ -66,7 +66,7 @@ public class TabbedActivity extends AppCompatActivity {
 //        tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_allfriends, null));
 //        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
 //        tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
-//        tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+        tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.climber, null));
 
 
 
