@@ -3,6 +3,7 @@ package edu.carleton.comp2601.climbr;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -35,6 +36,13 @@ public class TabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private final int NEARBY_GYMS = 0;
+    private final int FIND_BELAYER = 1;
+    private final int CONNECT = 2;
+    private final int MY_TRAINER = 3;
+    private final int PROFILE = 4;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,14 @@ public class TabbedActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        tabLayout.getTabAt(NEARBY_GYMS).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_dialog_map, null));
+        tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_allfriends, null));
+        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+        tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+        tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+
+
         tabLayout.setupWithViewPager(mViewPager);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -142,19 +158,23 @@ public class TabbedActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            return 5;
         }
+
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Nearby Gyms";
                 case 1:
-                    return "SECTION 2";
+                    return "Find Belayers";
                 case 2:
-                    return "SECTION 3";
+                    return "Connect";
+                case 3:
+                    return "Personal Trainer";
+                case 4:
+                    return "Profile";
             }
             return null;
         }
