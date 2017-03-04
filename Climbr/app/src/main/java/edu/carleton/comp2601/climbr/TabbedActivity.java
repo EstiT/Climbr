@@ -1,8 +1,12 @@
 package edu.carleton.comp2601.climbr;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +25,22 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import static edu.carleton.comp2601.climbr.R.id.map;
+
 public class TabbedActivity extends AppCompatActivity {
+
+    static TabbedActivity instance;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -48,6 +68,8 @@ public class TabbedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed);
+
+        instance = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,6 +103,10 @@ public class TabbedActivity extends AppCompatActivity {
 
     }
 
+    public static TabbedActivity getInstance(){
+        return instance;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,9 +130,171 @@ public class TabbedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class MapFragment extends Fragment{
-        
+    public static class NearbyGymsFragment extends MapFragment{
+        MapView mMapView;
+        private GoogleMap googleMap;
+
+        public NearbyGymsFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static NearbyGymsFragment newInstance(int sectionNumber) {
+            NearbyGymsFragment fragment = new NearbyGymsFragment();
+            Bundle args = new Bundle();
+            //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.location_fragment, container, false);
+            mMapView = (MapView) rootView.findViewById(R.id.mapView);
+            mMapView.onCreate(savedInstanceState);
+
+            mMapView.onResume(); // needed to get the map to display immediately
+
+
+            //setContentView(R.layout.activity_maps);
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                    .findFragmentById(R.id.map);
+//            mapFragment.getMapAsync(this);
+//            View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
+            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+            try {
+                MapsInitializer.initialize(getActivity().getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            mMapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap mMap) {
+                    googleMap = mMap;
+
+                    if (!(ContextCompat.checkSelfPermission(TabbedActivity.getInstance().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED)) {
+                        Log.i("MapsActivity", "Permission denied");
+                        ActivityCompat.requestPermissions(TabbedActivity.getInstance(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 123);
+                    }
+
+                    if (ContextCompat.checkSelfPermission(TabbedActivity.getInstance().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED){
+                        Log.i("MapsActivity", "Permission is granted");
+                        googleMap.setMyLocationEnabled(true);
+                    }
+
+                    // For dropping a marker at a point on the Map
+                    LatLng sydney = new LatLng(-34, 151);
+                    googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+
+                    // For zooming automatically to the location of the marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+            });
+
+            return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            mMapView.onResume();
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            mMapView.onPause();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            mMapView.onDestroy();
+        }
+
+        @Override
+        public void onLowMemory() {
+            super.onLowMemory();
+            mMapView.onLowMemory();
+        }
     }
+
+
+    /*public static class MapViewFragment extends Fragment {
+
+        MapView mMapView;
+        private GoogleMap googleMap;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.activity_maps, container, false);
+
+            mMapView = (MapView) rootView.findViewById(R.id.mapView);
+            mMapView.onCreate(savedInstanceState);
+
+            mMapView.onResume(); // needed to get the map to display immediately
+
+            try {
+                MapsInitializer.initialize(getActivity().getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            mMapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap mMap) {
+                    googleMap = mMap;
+
+                    // For showing a move to my location button
+                    googleMap.setMyLocationEnabled(true);
+
+                    // For dropping a marker at a point on the Map
+                    LatLng sydney = new LatLng(-34, 151);
+                    googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+
+                    // For zooming automatically to the location of the marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+            });
+
+            return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            mMapView.onResume();
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            mMapView.onPause();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            mMapView.onDestroy();
+        }
+
+        @Override
+        public void onLowMemory() {
+            super.onLowMemory();
+            mMapView.onLowMemory();
+        }
+    }*/
 
     /**
      * A placeholder fragment containing a simple view.
