@@ -61,14 +61,14 @@ public class TabbedActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        tabLayout.getTabAt(NEARBY_GYMS).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_dialog_map, null));
-        tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_allfriends, null));
-        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
-        tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
-        tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
-
-
         tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.getTabAt(NEARBY_GYMS).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_dialog_map, null));
+//        tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_allfriends, null));
+//        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+//        tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+//        tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+
+
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -162,21 +162,21 @@ public class TabbedActivity extends AppCompatActivity {
         }
 
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Nearby Gyms";
-                case 1:
-                    return "Find Belayers";
-                case 2:
-                    return "Connect";
-                case 3:
-                    return "Personal Trainer";
-                case 4:
-                    return "Profile";
-            }
-            return null;
-        }
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            switch (position) {
+//                case 0:
+//                    return "Nearby Gyms";
+//                case 1:
+//                    return "Find Belayers";
+//                case 2:
+//                    return "Connect";
+//                case 3:
+//                    return "Personal Trainer";
+//                case 4:
+//                    return "Profile";
+//            }
+//            return null;
+//        }
     }
 }
