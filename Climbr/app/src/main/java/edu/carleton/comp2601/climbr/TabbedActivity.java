@@ -37,8 +37,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.data.kml.KmlLayer;
 
-import static edu.carleton.comp2601.climbr.R.id.map;
 
 public class TabbedActivity extends AppCompatActivity {
 
@@ -132,7 +132,7 @@ public class TabbedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class NearbyGymsFragment extends MapFragment{
+    public static class NearbyGymsFragment extends SupportMapFragment{
         MapView mMapView;
         private GoogleMap googleMap;
 
@@ -181,6 +181,7 @@ public class TabbedActivity extends AppCompatActivity {
                 public void onMapReady(GoogleMap mMap) {
                     googleMap = mMap;
 
+                    Log.i("2601","in getmap async");
                     if (!(ContextCompat.checkSelfPermission(TabbedActivity.getInstance().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED)) {
                         Log.i("MapsActivity", "Permission denied");
@@ -193,6 +194,14 @@ public class TabbedActivity extends AppCompatActivity {
                         googleMap.setMyLocationEnabled(true);
                     }
 
+                    try {
+                        KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
+                        layer.addLayerToMap();
+                        Log.i("2601", "layer: " + layer.getPlacemarks().toString());
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
                     // For dropping a marker at a point on the Map
                     LatLng sydney = new LatLng(-34, 151);
                     googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
@@ -200,6 +209,9 @@ public class TabbedActivity extends AppCompatActivity {
                     // For zooming automatically to the location of the marker
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
                 }
             });
 
@@ -314,8 +326,8 @@ public class TabbedActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             switch (position){
-//                case NEARBY_GYMS:
-//                    return NearbyGymsFragment.newInstance();
+                case NEARBY_GYMS:
+                    return NearbyGymsFragment.newInstance();
                 case FIND_BELAYER:
                     return FindBelayerFragment.newInstance();
 //                case CONNECT:

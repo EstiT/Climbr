@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Climbing gyms</name>
+    <description/>
+    <Style id="icon-1899-0288D1-nodesc-normal">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1899-0288D1-nodesc-highlight">
+      <IconStyle>
+        <color>ffd18802</color>
+        <scale>1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1899-0288D1-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1899-0288D1-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1899-0288D1-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Untitled layer</name>
+      <Placemark>
+        <name>Central Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -72.5844906,42.3420669,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Aiguille Rock Climbing Center</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -81.349002,28.691388,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>X-TREME Rock Climbing Center</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -80.4205388,25.6375856,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Big Rock Climbing Centre</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -0.686338999999975,52.038525,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Central Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -71.1986641,42.3695117,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Central Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -72.5824821,41.7232889,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Central Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -71.0665065,42.1995384,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Toronto Climbing Academy</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.3148111,43.7092115,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Grand River Rocks</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -80.4752202,43.4416162,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>On the Edge Rock Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -80.6915209,28.1054927,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Boulderz Climbing Centre</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.5501855,43.6189333,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Toronto Climbing Academy</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.3148111,43.7092115,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Boulderz Climbing Centre</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.449477,43.666955,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Joe Rockhead's Indoor Rock Climbing]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.4231483,43.6364182,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Peaks Indoor Rock Climbing</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.2007385,43.1797552,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>True North Climbing</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.474614,43.745273,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Of Rock and Chalk</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.4581929,44.0577045,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coyote Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.6258487,45.4056139,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Allez Up centre d'escalade]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.5610076,45.4868635,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Grand River Rocks</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -80.4752202,43.4416162,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coyote Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.6258487,45.4056139,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bloc Shop</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.657777,45.531948,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coyote Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.6258487,45.4056139,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Allez Up centre d'escalade]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.5610076,45.4868635,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Centre d'escalade Horizon Roc]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.536783,45.568525,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Attitude Montagne</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -74.3405894,45.9717085,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Canyon Escalade</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.4696492,45.407993,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Petra Cliffs Climbing Center & Mountaineering School]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.2183521,44.4523933,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Shakti Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.5979673,45.5275553,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Green Mountain Rock Climbing Center ~Quechee~</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -72.4554674,43.6274268,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Altitude Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.7368648,45.4468803,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Zéro Gravité escalade & yoga]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.5749972,45.5332842,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Vertical Reality Inc</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.7158208,45.4195668,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Altitude Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.7368648,45.4468803,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coyote Rock Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -75.6258487,45.4056139,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Stone Age Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -106.5997758,35.1053465,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>VITAL Climbing Gym - Carlsbad</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.321431,33.118398,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Stronghold Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -118.2169742,34.0636509,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Apex Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -94.6697014,38.9365442,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rock Wall Climbing Gym Inc The</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.6632167,49.2108801,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Boulders Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -89.317741,43.108689,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Red Barn Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.684737,43.084305,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Sydney Indoor Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            151.174121,-33.910359,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Wall Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.2303232,33.1367852,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Sydney Indoor Climbing Gym Villawood</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            150.9775568,-33.8791418,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Ultimate Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.9276785,36.0830936,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Boiler Room Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -76.4807269,44.2418388,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.9403643,40.7526871,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rock Climb Fairfield</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.2679778,41.1416452,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Sender One Climbing, Yoga, Fitness and Sender City (Funtopia)</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.835064,33.729205,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>VITAL Climbing Gym - Carlsbad</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.321431,33.118398,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Hangar 18 Indoor Climbing Gym - Long Beach</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -118.1615562,33.8051165,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Hangar 18 Indoor Climbing Gym - Riverside</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.446141,33.9460709,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>VITAL Climbing Gym - Murrieta</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.13633,33.561196,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Hangar 18 Indoor Climbing Gym - Upland</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.647748,34.0936336,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Wall Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -117.2303232,33.1367852,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Pacific Edge Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.006469,36.968154,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Sacramento Pipeworks Climbing and Fitness</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -121.4812782,38.5890475,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rocknasium</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -121.7386711,38.538253,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cliffside Climbing Gym Ltd</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -120.365459,50.6600167,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Beyond The Crux Climbing Gym Inc.</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -119.399128,49.907719,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>On The Rocks Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -125.2725951,50.0331868,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Cliffhanger Climbing Gyms</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -123.090059,49.268293,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Climb Base5 Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.8497352,49.2277743,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Project Climbing Centre</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.2794088,49.0404017,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Boulders Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -123.4317569,48.5776549,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Coastal Climbing Centre</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.8672022,49.1427672,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Rock Wall Climbing Gym Inc The</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -122.6632167,49.2108801,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Hive Bouldering Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -123.09254,49.268737,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Adventure Rock</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -88.1767014,43.0844643,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Boulders Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -89.317741,43.108689,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Centre of Elgin</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -88.285288,42.040926,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Climb On</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -87.668573,41.560423,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>North Wall Rock Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -88.3164855,42.2181608,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Kendall Cliffs Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -81.492836,41.219688,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>First Ascent Avondale</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -87.7103269,41.9451804,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Gravity Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.8939243,43.2581843,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Red Barn Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -77.684737,43.084305,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Guelph Grotto Indoor Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -80.2247474,43.5520163,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Gravity Climbing Gym</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.8939243,43.2581843,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Grand River Rocks</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -80.4752202,43.4416162,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Boulderz Climbing Centre</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.5501855,43.6189333,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Basecamp Climbing</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.4165155,43.6638711,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Toronto Climbing Academy</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.3148111,43.7092115,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Joe Rockhead's Indoor Rock Climbing]]></name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.4231483,43.6364182,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>True North Climbing</name>
+        <styleUrl>#icon-1899-0288D1-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -79.474614,43.745273,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>
