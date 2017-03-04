@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -40,6 +41,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+
+import android.widget.ImageView;
 
 import android.widget.TextView;
 
@@ -303,10 +306,6 @@ public class TabbedActivity extends AppCompatActivity implements
 
         public static FindBelayerFragment newInstance() {
             FindBelayerFragment fragment = new FindBelayerFragment();
-            Bundle args = new Bundle();
-
-
-            fragment.setArguments(args);
             return fragment;
         }
 
@@ -321,7 +320,12 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.find_belayer_fragment, container, false);
 
+            ImageView profilePic = (ImageView) rootView.findViewById(R.id.profilePic);
+            TextView name = (TextView) rootView.findViewById(R.id.name);
 
+            profilePic.getLayoutParams().width = 420;
+            profilePic.getLayoutParams().height = 600;
+            name.setTextSize(30.0f);
             return rootView;
         }
     }
