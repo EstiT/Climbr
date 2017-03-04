@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import static edu.carleton.comp2601.climbr.R.id.map;
 
 public class TabbedActivity extends AppCompatActivity {
+public class TabbedActivity extends AppCompatActivity implements FindBelayerFragment.OnFragmentInteractionListener {
 
     static TabbedActivity instance;
 
@@ -374,6 +375,11 @@ public class TabbedActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return 5;
+        }
+
+        @Override
+        public void onFragmentInteraction(Uri uri){
+            //you can leave it empty
         }
 
 
