@@ -1,7 +1,14 @@
 package edu.carleton.comp2601.climbr;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +31,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,11 +52,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.data.Feature;
+import com.google.maps.android.data.Layer;
+import com.google.maps.android.data.kml.KmlContainer;
 import com.google.maps.android.data.kml.KmlLayer;
 
 
-public class TabbedActivity extends AppCompatActivity {
+public class TabbedActivity extends AppCompatActivity implements
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener {
 
     static TabbedActivity instance;
 
@@ -131,24 +154,26 @@ public class TabbedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class NearbyGymsFragment extends SupportMapFragment{
+    public static class NearbyGymsFragment extends Fragment{
         MapView mMapView;
         private GoogleMap googleMap;
 
         public NearbyGymsFragment() {
+            super();
         }
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static NearbyGymsFragment newInstance(int sectionNumber) {
+        public static NearbyGymsFragment newInstance() {
             NearbyGymsFragment fragment = new NearbyGymsFragment();
-            Bundle args = new Bundle();
+            //Bundle args = new Bundle();
             //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
+            //fragment.setArguments(args);
             return fragment;
         }
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,15 +184,6 @@ public class TabbedActivity extends AppCompatActivity {
 
             mMapView.onResume(); // needed to get the map to display immediately
 
-
-            //setContentView(R.layout.activity_maps);
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                    .findFragmentById(R.id.map);
-//            mapFragment.getMapAsync(this);
-//            View rootView = inflater.inflate(R.layout.fragment_tabbed, container, false);
-            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
             try {
                 MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -180,7 +196,6 @@ public class TabbedActivity extends AppCompatActivity {
                 public void onMapReady(GoogleMap mMap) {
                     googleMap = mMap;
 
-                    Log.i("2601","in getmap async");
                     if (!(ContextCompat.checkSelfPermission(TabbedActivity.getInstance().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED)) {
                         Log.i("MapsActivity", "Permission denied");
@@ -197,20 +212,57 @@ public class TabbedActivity extends AppCompatActivity {
                         KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
                         layer.addLayerToMap();
                         Log.i("2601", "layer: " + layer.getPlacemarks().toString());
+                        for (KmlContainer containers : layer.getContainers()){
+                        // Do something to container
+
+                        }
+                        layer.setOnFeatureClickListener(new Layer.OnFeatureClickListener() {
+                            @Override
+                            public void onFeatureClick(Feature feature) {
+                                Log.i("2601", "Feature" + feature.getProperties().toString());
+                            }
+                        });
+
                     }catch(Exception e){
                         e.printStackTrace();
                     }
 
-                    // For dropping a marker at a point on the Map
-                    LatLng sydney = new LatLng(-34, 151);
-                    googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                    googleMap.setOnMarkerClickListener(TabbedActivity.getInstance());
+                    googleMap.setOnInfoWindowClickListener(TabbedActivity.getInstance());
+                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+                    CameraUpdate center = CameraUpdateFactory.newLatLng(getLocation());
+                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(10.0f);
+                    googleMap.moveCamera(center);
+                    googleMap.animateCamera(zoom);
 
-                    // For zooming automatically to the location of the marker
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                        @Override
+                        public boolean onMyLocationButtonClick() {
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLng(getLocation()));
+                            return true;
+                        }
+                    });
 
 
 
+                }
+
+
+                private LatLng getLocation(){
+                    LocationManager locationManager = (LocationManager) TabbedActivity.getInstance().getSystemService(Context.LOCATION_SERVICE);
+
+                    Criteria criteria = new Criteria();
+                    String provider = locationManager.getBestProvider(criteria, false);
+                    Location location = null;
+                    try {
+                        location = locationManager.getLastKnownLocation(provider);
+                    } catch (SecurityException e) {
+                        Log.i("MapsActivity","Unable to get current location");
+                        e.printStackTrace();
+                    }
+
+                    LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    return newLatLng;
                 }
             });
 
@@ -363,4 +415,18 @@ public class TabbedActivity extends AppCompatActivity {
 //            return null;
 //        }
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.i("2601", marker.getTitle());
+        marker.showInfoWindow();
+        return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        marker.hideInfoWindow();
+    }
+
+
 }
