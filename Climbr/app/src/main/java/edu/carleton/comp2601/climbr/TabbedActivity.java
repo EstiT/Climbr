@@ -63,11 +63,11 @@ public class TabbedActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(NEARBY_GYMS).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_dialog_map, null));
-//        tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_allfriends, null));
-//        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
-//        tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_al, null));
+        tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_group_white_48dp , null));
+        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),android.R.drawable.stat_notify_chat, null));
+        tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(),R.mipmap.ic_alarm_on_white_48dp, null));
         tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.climber, null));
-
+//
 
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
