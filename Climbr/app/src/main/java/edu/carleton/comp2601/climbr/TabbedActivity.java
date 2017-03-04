@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -239,10 +240,6 @@ public class TabbedActivity extends AppCompatActivity {
 
         public static FindBelayerFragment newInstance() {
             FindBelayerFragment fragment = new FindBelayerFragment();
-            Bundle args = new Bundle();
-
-
-            fragment.setArguments(args);
             return fragment;
         }
 
@@ -257,7 +254,12 @@ public class TabbedActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.find_belayer_fragment, container, false);
 
+            ImageView profilePic = (ImageView) rootView.findViewById(R.id.profilePic);
+            TextView name = (TextView) rootView.findViewById(R.id.name);
 
+            profilePic.getLayoutParams().width = 420;
+            profilePic.getLayoutParams().height = 600;
+            name.setTextSize(30.0f);
             return rootView;
         }
     }
