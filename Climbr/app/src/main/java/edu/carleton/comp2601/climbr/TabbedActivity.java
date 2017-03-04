@@ -296,6 +296,16 @@ public class TabbedActivity extends AppCompatActivity {
         }
     }*/
 
+    public static class FindBelayerFragment extends Fragment{
+
+
+        public static FindBelayerFragment newInstance() {
+            FindBelayerFragment fragment = new FindBelayerFragment();
+            return fragment;
+        }
+    }
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -343,6 +353,19 @@ public class TabbedActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+
+            switch (position){
+//                case NEARBY_GYMS:
+//                    return NearbyGymsFragment.newInstance();
+                case FIND_BELAYER:
+                    return FindBelayerFragment.newInstance();
+//                case CONNECT:
+//                    return ConnectFragment.newInstance();
+//                case MY_TRAINER:
+//                    return MyTrainerFragment.newInstance();
+//                case PROFILE:
+//                    return ProfileFragment.newInstance();
+            }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
