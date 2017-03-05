@@ -63,6 +63,9 @@ import com.google.maps.android.data.kml.KmlContainer;
 import com.google.maps.android.data.kml.KmlLayer;
 import com.google.maps.android.data.kml.KmlPlacemark;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 public class TabbedActivity extends AppCompatActivity implements
         GoogleMap.OnMarkerClickListener,
@@ -90,6 +93,8 @@ public class TabbedActivity extends AppCompatActivity implements
     private final int MY_TRAINER = 3;
     private final int PROFILE = 4;
 
+    public static JSONObject data;
+
 
 
     @Override
@@ -98,6 +103,41 @@ public class TabbedActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_tabbed);
 
         instance = this;
+
+        try{
+            data = new JSONObject("{\n" +
+                    "  \"people\": {\n" +
+                    "    \"esti\": {\n" +
+                    "      \"name\": \"Esti\",\n" +
+                    "      \"bio\": \"I love rockclimbing and also Olivia\"\n" +
+                    "    },\n" +
+                    "    \"olivia\": {\n" +
+                    "      \"name\": \"Olivia\",\n" +
+                    "      \"bio\": \"Climb me or with me\"\n" +
+                    "    },\n" +
+                    "    \"david\": {\n" +
+                    "      \"name\": \"David\",\n" +
+                    "      \"bio\": \"The best thing about me is my girlfriend\"\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}");
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+/*
+        try {
+            JSONObject people = (JSONObject) (TabbedActivity.data.get("people"));
+            while (people.keys().hasNext()) {
+                t.setText(people.keys().next());
+            }
+            for (String id : people.keys()) {
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -326,15 +366,25 @@ public class TabbedActivity extends AppCompatActivity implements
 
         CustomPagerAdapter mCustomPagerAdapter;
         ViewPager mViewPager;
+
+
         static int[]  mResources = {
                 R.drawable.profile,
                 R.drawable.climber,
                 R.drawable.profile,
                 R.drawable.profile,
-                R.drawable.profile,
-                R.drawable.profile,
+                R.drawable.profile
         };
-        public FindBelayerFragment() {  }
+        static String[] bioResources = {
+          "Esti: I love rockclimbing and also Olivia",
+                "Olivia: Climb me or with me",
+                "David: The best thing about me is my girlfriend",
+                "I climb",
+                "I climb too"
+
+        };
+        public FindBelayerFragment() {
+        }
 
 
         public static FindBelayerFragment newInstance() {

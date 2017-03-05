@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import org.json.JSONObject;
 
 /**
  * Created by estitweg on 2017-03-04.
@@ -39,6 +42,10 @@ public class CustomPagerAdapter extends PagerAdapter {
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
             imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);
+
+            TextView t = (TextView)itemView.findViewById(R.id.text);
+
+            t.setText(TabbedActivity.FindBelayerFragment.bioResources[position]);
 
             container.addView(itemView);
 

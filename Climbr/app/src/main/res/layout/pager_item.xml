@@ -13,5 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="here goes a bio" />
+        android:text="here goes a bio"
+        android:id="@+id/text"/>
 </LinearLayout>
