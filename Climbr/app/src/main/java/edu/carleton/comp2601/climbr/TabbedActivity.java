@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -39,6 +40,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+
+import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -421,7 +425,10 @@ public class TabbedActivity extends AppCompatActivity implements
 
 
     public static class MyTrainerFragment extends Fragment {
-        Timer timer;
+        Chronometer timer;
+        boolean running;
+        long time;
+        //Button b;
 
         public MyTrainerFragment() {
         }
@@ -441,6 +448,33 @@ public class TabbedActivity extends AppCompatActivity implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.my_trainer_fragment, container, false);
+
+            timer = (Chronometer)rootView.findViewById(R.id.chronometer);
+            timer.setBase(SystemClock.elapsedRealtime());
+            time = 0;
+            running = false;
+            timer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (running){
+                        timer.stop();
+                        running = false;
+                        time = timer.getBase() - SystemClock.elapsedRealtime();
+                    }else{
+                        timer.setBase(SystemClock.elapsedRealtime() + time);
+                        timer.start();
+                        running=true;
+
+                    }
+                }
+            });
+            timer.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    timer.setBase(SystemClock.elapsedRealtime());
+                    return false;
+                }
+            });
 
             return rootView;
         }
