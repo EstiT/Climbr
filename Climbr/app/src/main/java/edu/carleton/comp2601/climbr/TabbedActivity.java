@@ -61,6 +61,7 @@ import com.google.maps.android.data.Feature;
 import com.google.maps.android.data.Layer;
 import com.google.maps.android.data.kml.KmlContainer;
 import com.google.maps.android.data.kml.KmlLayer;
+import com.google.maps.android.data.kml.KmlPlacemark;
 
 
 public class TabbedActivity extends AppCompatActivity implements
@@ -179,7 +180,7 @@ public class TabbedActivity extends AppCompatActivity implements
 
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.location_fragment, container, false);
             mMapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -212,17 +213,39 @@ public class TabbedActivity extends AppCompatActivity implements
                     }
 
                     try {
+
                         KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
                         layer.addLayerToMap();
+                        /*
                         Log.i("2601", "layer: " + layer.getPlacemarks().toString());
+                        Log.i("2601", "layer: " + layer.getContainers().toString());
                         for (KmlContainer containers : layer.getContainers()){
                         // Do something to container
+                            Log.i("2601", "containers" +containers.getContainers());
+                            for(KmlContainer container2: containers.getContainers()){
+                                Log.i("2601", " placemarks" +container2.getPlacemarks());
+                                for(KmlPlacemark p: container2.getPlacemarks()){
+                                    Log.i("2601", " keys" +p.getPropertyKeys().toString());
 
-                        }
+                                    double lat = Double.parseDouble(((String)p.getProperty("Point")).substring(0,((String)p.getProperty("coordinates")).indexOf(",")));
+                                    double lng = Double.parseDouble(((String)p.getProperty("coordinates")).substring(((String)p.getProperty("coordinates")).indexOf(",")));
+
+                                    Log.i("coordinates: ", lat + " "+lng);
+                                    googleMap.addMarker(new MarkerOptions().position(new LatLng(lat,lng))
+                                            .title(p.getProperty("name"))
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                                    Log.i("2601", " name: " +p.getProperty("name"));
+
+                                }
+                            }
+
+                        }*/
                         layer.setOnFeatureClickListener(new Layer.OnFeatureClickListener() {
                             @Override
                             public void onFeatureClick(Feature feature) {
                                 Log.i("2601", "Feature" + feature.getProperties().toString());
+                                Log.i("2601", "Feature name" + feature.getProperty("name"));
                             }
                         });
 
@@ -423,6 +446,8 @@ public class TabbedActivity extends AppCompatActivity implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.i("2601", marker.getTitle());
+        Log.i("2601", marker.getId());
+
         marker.showInfoWindow();
         return false;
     }
