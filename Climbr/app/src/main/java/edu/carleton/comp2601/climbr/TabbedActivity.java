@@ -324,6 +324,16 @@ public class TabbedActivity extends AppCompatActivity implements
 
     public static class FindBelayerFragment extends Fragment {
 
+        CustomPagerAdapter mCustomPagerAdapter;
+        ViewPager mViewPager;
+        static int[]  mResources = {
+                R.drawable.profile,
+                R.drawable.profile,
+                R.drawable.profile,
+                R.drawable.profile,
+                R.drawable.profile,
+                R.drawable.profile,
+        };
         public FindBelayerFragment() {  }
 
 
@@ -343,12 +353,17 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.find_belayer_fragment, container, false);
 
-            ImageView profilePic = (ImageView) rootView.findViewById(R.id.profilePic);
-            TextView name = (TextView) rootView.findViewById(R.id.name);
 
-            profilePic.getLayoutParams().width = 420;
-            profilePic.getLayoutParams().height = 600;
+            TextView name = (TextView) rootView.findViewById(R.id.name);
             name.setTextSize(30.0f);
+
+            mCustomPagerAdapter = new CustomPagerAdapter(TabbedActivity.getInstance());
+
+            mViewPager = (ViewPager)rootView.findViewById(R.id.pager);
+            mViewPager.setAdapter(mCustomPagerAdapter);
+
+
+
             return rootView;
         }
     }
