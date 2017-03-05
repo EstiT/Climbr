@@ -423,6 +423,61 @@ public class TabbedActivity extends AppCompatActivity implements
     }
 
 
+    public static class ConnectFragment extends Fragment {
+
+        public ConnectFragment() {
+        }
+
+        public static ConnectFragment newInstance() {
+            ConnectFragment fragment = new ConnectFragment();
+            return fragment;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.connect_fragment, container, false);
+
+
+
+            return rootView;
+        }
+    }
+
+    public static class ProfileFragment extends Fragment {
+
+        public ProfileFragment() {
+        }
+
+        public static ProfileFragment newInstance() {
+            ProfileFragment fragment = new ProfileFragment();
+            return fragment;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
+
+
+
+            return rootView;
+        }
+    }
+
+
 
     public static class MyTrainerFragment extends Fragment {
         Chronometer timer;
@@ -534,12 +589,12 @@ public class TabbedActivity extends AppCompatActivity implements
                     return NearbyGymsFragment.newInstance();
                 case FIND_BELAYER:
                     return FindBelayerFragment.newInstance();
-//                case CONNECT:
-//                    return ConnectFragment.newInstance();
+                case CONNECT:
+                    return ConnectFragment.newInstance();
                 case MY_TRAINER:
                     return MyTrainerFragment.newInstance();
-//                case PROFILE:
-//                    return ProfileFragment.newInstance();
+                case PROFILE:
+                    return ProfileFragment.newInstance();
             }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
