@@ -328,7 +328,7 @@ public class TabbedActivity extends AppCompatActivity implements
         ViewPager mViewPager;
         static int[]  mResources = {
                 R.drawable.profile,
-                R.drawable.profile,
+                R.drawable.climber,
                 R.drawable.profile,
                 R.drawable.profile,
                 R.drawable.profile,
