@@ -4,15 +4,34 @@
     android:layout_height="match_parent">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:text="Name"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:id="@+id/name" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView" />
+        android:id="@+id/imageView"
+        android:maxHeight="400px"
+        android:maxWidth="550px"
+        android:minHeight="400px"
+        android:minWidth="550px"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="here goes a bio"
-        android:id="@+id/text"/>
+        android:gravity="center"
+        android:id="@+id/bio"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 </LinearLayout>

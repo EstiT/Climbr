@@ -43,9 +43,13 @@ public class CustomPagerAdapter extends PagerAdapter {
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
             imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);
 
-            TextView t = (TextView)itemView.findViewById(R.id.text);
+            TextView bio = (TextView)itemView.findViewById(R.id.bio);
+            bio.setText(TabbedActivity.FindBelayerFragment.bioResources[position]);
+            bio.setTextSize(16.0f);
 
-            t.setText(TabbedActivity.FindBelayerFragment.bioResources[position]);
+            TextView name = (TextView)itemView.findViewById(R.id.name);
+            name.setTextSize(30.0f);
+            name.setText(TabbedActivity.FindBelayerFragment.nameResources[position]);
 
             container.addView(itemView);
 

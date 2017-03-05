@@ -18,7 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,8 +29,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -41,11 +38,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-
 import android.widget.ImageView;
-
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -62,7 +56,6 @@ import com.google.maps.android.data.Layer;
 import com.google.maps.android.data.kml.KmlContainer;
 import com.google.maps.android.data.kml.KmlLayer;
 import com.google.maps.android.data.kml.KmlPlacemark;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -370,18 +363,24 @@ public class TabbedActivity extends AppCompatActivity implements
 
         static int[]  mResources = {
                 R.drawable.profile,
-                R.drawable.climber,
-                R.drawable.profile,
-                R.drawable.profile,
-                R.drawable.profile
+                R.drawable.profile3,
+                R.drawable.profile2,
+                R.drawable.profile4,
+                R.drawable.profile5
         };
         static String[] bioResources = {
-          "Esti: I love rockclimbing and also Olivia",
-                "Olivia: Climb me or with me",
-                "David: The best thing about me is my girlfriend",
-                "I climb",
+                "I love rockclimbing and also Olivia",
+                "Climb me or with me",
+                "The best thing about me is my girlfriend",
+                "Whats climbing",
                 "I climb too"
-
+        };
+        static String[] nameResources = {
+                "Esti",
+                "Olivia",
+                "David",
+                "Alex",
+                "Mary"
         };
         public FindBelayerFragment() {
         }
@@ -403,9 +402,6 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.find_belayer_fragment, container, false);
 
-
-            TextView name = (TextView) rootView.findViewById(R.id.name);
-            name.setTextSize(30.0f);
 
             mCustomPagerAdapter = new CustomPagerAdapter(TabbedActivity.getInstance());
 
