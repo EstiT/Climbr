@@ -49,8 +49,7 @@ public class CustomPagerAdapter extends PagerAdapter {
                 @Override
                 public boolean onLongClick(View v) {
                     Log.i("CustomPageAdapter","profile picture was long clicked");
-                    
-
+                    TabbedActivity.getInstance().tabLayout.getTabAt(2).select();
                     return true;
                 }
             });
