@@ -60,6 +60,8 @@ import com.google.maps.android.data.kml.KmlPlacemark;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Timer;
+
 
 public class TabbedActivity extends AppCompatActivity implements
         GoogleMap.OnMarkerClickListener,
@@ -417,6 +419,34 @@ public class TabbedActivity extends AppCompatActivity implements
     }
 
 
+
+    public static class MyTrainerFragment extends Fragment {
+        Timer timer;
+
+        public MyTrainerFragment() {
+        }
+
+
+        public static MyTrainerFragment newInstance() {
+            MyTrainerFragment fragment = new MyTrainerFragment();
+            return fragment;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.my_trainer_fragment, container, false);
+
+            return rootView;
+        }
+    }
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -472,8 +502,8 @@ public class TabbedActivity extends AppCompatActivity implements
                     return FindBelayerFragment.newInstance();
 //                case CONNECT:
 //                    return ConnectFragment.newInstance();
-//                case MY_TRAINER:
-//                    return MyTrainerFragment.newInstance();
+                case MY_TRAINER:
+                    return MyTrainerFragment.newInstance();
 //                case PROFILE:
 //                    return ProfileFragment.newInstance();
             }
