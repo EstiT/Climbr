@@ -71,6 +71,27 @@ public class Connection {
                 Log.i("Connection", "Handling CONNECTED RESPONSE");
                 //hide Spinner
                 LoginActivity.getInstance().showProgress(false);
+                //check if new or existing user
+                try{
+                    String jsonString = (String) e.get("json");
+                    JSONObject json = new JSONObject(jsonString);
+
+                    String status = (String) json.get("status");
+                    if(status.equals("new")){
+                        //redirect to create new profile
+                        Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
+                        LoginActivity.getInstance().startActivity(i);
+                    }
+                    else if (status.equals("returning")){
+                        //bring them into app
+                        Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
+                        LoginActivity.getInstance().startActivity(i);
+                    }
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
             }
         });
 
