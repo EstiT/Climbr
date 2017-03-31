@@ -321,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void run() {
                     //Connect to server
-                    c.connect(HOST, p, mEmail.split("@")[0]);
+                    c.connect(HOST, p, mEmail.split("@")[0], mPassword);
                 }
             });
             t.start();

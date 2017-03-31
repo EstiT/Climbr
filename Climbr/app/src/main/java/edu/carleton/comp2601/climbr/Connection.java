@@ -30,7 +30,7 @@ public class Connection {
     EventStreamImpl stream;
 
 
-    public void connect(String h,int p, String userid ){
+    public void connect(String h,int p, String userid, String pass){
         host = h;
         port = p;
         user = userid;
@@ -48,7 +48,8 @@ public class Connection {
             thread.start();
 
             JSONObject json = new JSONObject();
-            json.put("id", user);
+            json.put("username", user);
+            json.put("password", pass);
 
             //make a connect request event
             Event e = new Event("CONNECT_REQUEST", thread.getEventSource());
