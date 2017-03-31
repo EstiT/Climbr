@@ -70,7 +70,13 @@ public class Connection {
             public void handleEvent(Event e) {
                 Log.i("Connection", "Handling CONNECTED RESPONSE");
                 //hide Spinner
-                LoginActivity.getInstance().showProgress(false);
+                LoginActivity.getInstance().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LoginActivity.getInstance().showProgress(false);
+                    }
+                });
+
                 //check if new or existing user
                 try{
                     String jsonString = (String) e.get("json");
