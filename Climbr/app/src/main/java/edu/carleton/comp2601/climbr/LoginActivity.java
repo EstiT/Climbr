@@ -63,11 +63,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    static LoginActivity instance;
+    public static Connection c;
+    private static final String HOST = "172.17.196.214";
+    private static int p = 2601;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        instance = this;
+        c = new Connection();
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -206,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -309,6 +317,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Connect to server
+                    c.connect(HOST, p, mEmail.split("@")[0]);
+                }
+            });
+            t.start();
 
             try {
                 // Simulate network access.
@@ -350,6 +366,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    public static LoginActivity getInstance(){
+        return instance;
     }
 }
 
