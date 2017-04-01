@@ -2,14 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.carleton.comp2601.climbr">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.IMAGE_CAPTURE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
     <uses-library android:name="com.google.android.maps" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
@@ -46,6 +53,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".UserOnboardActivity"></activity>
+
+        <provider android:name="android.support.v4.content.FileProvider"
+            android:authorities="edu.carleton.comp2601.climbr.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths">
+            </meta-data>
+        </provider>
     </application>
 
 </manifest>

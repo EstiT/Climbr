@@ -1,7 +1,12 @@
 package edu.carleton.comp2601.climbr;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -13,12 +18,18 @@ import android.widget.ImageButton;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 public class UserOnboardActivity extends AppCompatActivity {
 
+    static final int REQUEST_TAKE_PHOTO = 1;
+    String mCurrentPhotoPath;
     EditText pass;
     EditText bio;
     EditText pullups;
@@ -26,6 +37,8 @@ public class UserOnboardActivity extends AppCompatActivity {
     EditText name;
     EditText age;
     ImageButton dp;
+    Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +50,7 @@ public class UserOnboardActivity extends AppCompatActivity {
         grade = (EditText)findViewById(R.id.grade);
         age = (EditText)findViewById(R.id.age);
         dp = (ImageButton)findViewById(R.id.imageButton);
-
-        Button button = (Button)findViewById(R.id.button);
+        button = (Button)findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -56,12 +68,37 @@ public class UserOnboardActivity extends AppCompatActivity {
 
                 LoginActivity.getInstance().c.sendRequest("UPDATE_PROFILE",map);
 
-
             }
         });
 
+        dp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //https://developer.android.com/training/camera/photobasics.html
+                dispatchTakePictureIntent();
+            }
+        });
     }
 
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "edu.carleton.comp2601.climbr.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
 
 
     private String getStringFromBitmap(Bitmap bitmapPicture) {
@@ -78,6 +115,25 @@ public class UserOnboardActivity extends AppCompatActivity {
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
         return encodedImage;
     }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+
 }
 
 
