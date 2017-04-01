@@ -153,19 +153,38 @@ public class Server{
         DBCollection coll = db.getCollection("users");
         System.out.println("Collection users selected successfully");
 
-        DBCursor cursor = coll.find();
+        DBObject obj = new BasicDBObject();
+        obj.put( "username", username);  
 
-        while (cursor.hasNext()) {
-            DBObject updateDocument = cursor.next();
-            if (updateDocument.get(username) == username){
-                return true;
-            }
+        DBCursor cursor = coll.find(obj);
+        System.out.println("Cursor: "+ cursor);
+
+        if(cursor.hasNext()){
+            System.out.println("User exists");
+            return true;
+
         }
+        System.out.println("User does not exist");
         return false;
     }
 
     boolean authenticate(String username, String password){
-        return true;
+        //check database for users
+        DBCollection coll = db.getCollection("users");
+        System.out.println("Collection users selected successfully");
+
+        DBObject obj = new BasicDBObject();
+        obj.put( "username", username); 
+        obj.put( "password", password); 
+
+        DBCursor cursor = coll.find(obj);
+        if(cursor.hasNext()){
+            System.out.println("Authenticated");
+            return true;
+
+        }
+        System.out.println("Not authenticated");
+        return false;
     }
 
 
@@ -224,7 +243,7 @@ public class Server{
                         System.out.println("user exists");
                         //check if password is correct
                         if(authenticate(username, password)){
-                            System.out.println("Authenticated");
+                            System.out.println("Correct Password");
                             //save thread
                             twr = (ThreadWithReactor) Thread.currentThread();
                             addClient(username, twr);

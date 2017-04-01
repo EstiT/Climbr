@@ -30,7 +30,7 @@ public class UserOnboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_onboard);
-        name = (EditText) findViewById(R.id.name);
+        name  = (EditText)findViewById(R.id.name);
         pass = (EditText)findViewById(R.id.password);
         bio = (EditText)findViewById(R.id.bio);
         pullups = (EditText)findViewById(R.id.pullups);
