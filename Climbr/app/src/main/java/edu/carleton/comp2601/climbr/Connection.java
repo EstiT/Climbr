@@ -31,11 +31,12 @@ public class Connection {
 
 
     public void connect(String h,int p, String userid, String pass){
+        Log.i("2601", "in connect");
         host = h;
         port = p;
         user = userid;
         init();
-
+        Log.i("2601", "trying to create socket");
         try {
             s = new Socket(host,port);
             Log.i("2601", "Host: " +host + " Port: " + port);
@@ -51,6 +52,7 @@ public class Connection {
             json.put("username", user);
             json.put("password", pass);
 
+            Log.i("Connection", "Sending connect request");
             //make a connect request event
             Event e = new Event("CONNECT_REQUEST", thread.getEventSource());
             e.put("json", json.toString());
@@ -79,10 +81,8 @@ public class Connection {
 
                 //check if new or existing user
                 try{
-                    String jsonString = (String) e.get("json");
-                    JSONObject json = new JSONObject(jsonString);
+                    String status = (String) e.get("status");
 
-                    String status = (String) json.get("status");
                     if(status.equals("new")){
                         //redirect to create new profile
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
