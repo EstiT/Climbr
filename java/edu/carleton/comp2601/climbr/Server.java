@@ -127,6 +127,28 @@ public class Server{
     }
 
 
+    class ProfilesHandler implements EventHandler{
+            public void handleEvent(Event e) {
+                try {
+                    System.out.println("Handling Profiles");
+                    /*
+                    String jsonString = (String) e.get("json");
+                    System.out.println(jsonString);
+
+                    JSONObject json = new JSONObject(jsonString);*/
+
+
+                    //Mongo TODO get all profiles
+                    //Send back profiles
+
+
+                    Event response = new Event("PROFILE");
+
+
+                }
+            }
+        }
+    }
 
 
     class ConnectHandler implements EventHandler{
