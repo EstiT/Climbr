@@ -11,12 +11,27 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
+
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.DBCursor;
+
+import com.mongodb.ServerAddress;
+
 
 public class Server{
     public static int PORT = 2601;
     Socket s;
     Reactor r;
     public ConcurrentHashMap<String,ThreadWithReactor> clients;
+
+    DB db;
+    MongoClient mongoClient;
 
     public static void main(String args[]){
         Server ts = new Server();
@@ -29,6 +44,13 @@ public class Server{
             init();
             listener = new ServerSocket(PORT);
             System.out.println("Listening...");
+
+            // To connect to mongodb server
+            mongoClient = new MongoClient( "localhost" , 27017 );
+
+            // Now connect to your databases
+            db = mongoClient.getDB( "climbr" );
+            System.out.println("Connect to database successfully");
 
             while(true){
                 s = listener.accept();
@@ -54,6 +76,7 @@ public class Server{
         //register for connect request to save the user and send message
         r.register("CONNECT_REQUEST", new ConnectHandler());
 
+        r.register("PROFILES", new ProfilesHandler());
 
         //register for disconnect request
         r.register("DISCONNECT_REQUEST", new EventHandler(){
@@ -108,6 +131,14 @@ public class Server{
 
     void addUserToDB(String username, String password){
         //TODO MONGO
+        DBCollection coll = db.getCollection("users");
+        System.out.println("Collection users selected successfully");
+
+        DBObject obj = new BasicDBObject();
+        obj.put( "username", username);   
+        obj.put( "password", password);   
+        coll.insert(obj);
+
     }
 
     boolean clientExists(String username){
@@ -119,6 +150,17 @@ public class Server{
 
     boolean userExists(String username){
         //check database for users
+        DBCollection coll = db.getCollection("users");
+        System.out.println("Collection users selected successfully");
+
+        DBCursor cursor = coll.find();
+
+        while (cursor.hasNext()) {
+            DBObject updateDocument = cursor.next();
+            if (updateDocument.get(username) == username){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -145,6 +187,8 @@ public class Server{
                     Event response = new Event("PROFILE");
 
 
+                }catch(Exception ex){
+                    ex.printStackTrace();
                 }
             }
         }
@@ -213,4 +257,6 @@ public class Server{
             }
         }
     }
-}
+
+
+
