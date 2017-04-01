@@ -28,6 +28,7 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.google.maps.android:android-maps-utils:0.5+'
+    compile 'org.mongodb:mongo-java-driver:3.0.3'
 
     testCompile 'junit:junit:4.12'
 }

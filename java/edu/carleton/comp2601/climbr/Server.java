@@ -40,7 +40,8 @@ public class Server{
                 ThreadWithReactor thread = new ThreadWithReactor(stream, r);
                 thread.start();
             }
-        } catch(Exception e){
+        }
+        catch(Exception e){
             System.out.println(e);
         }
     }
@@ -92,7 +93,7 @@ public class Server{
 
     }
 
-    
+
 
     //add client to hashmap
     void addClient(String n, ThreadWithReactor t){
@@ -106,7 +107,7 @@ public class Server{
     }
 
     void addUserToDB(String username, String password){
-        //Todo MONGO
+        //TODO MONGO
     }
 
     boolean clientExists(String username){
@@ -118,7 +119,6 @@ public class Server{
 
     boolean userExists(String username){
         //check database for users
-
         return false;
     }
 
@@ -173,8 +173,9 @@ public class Server{
                     System.out.println("Err: already logged in");
                     response.put("error", "Already logged in on another device.");
 
-                }else{
-                    //Check if new or returning 
+                }
+                else{
+                    //Check if new or returning
                     if(userExists(username)){
                         System.out.println("user exists");
                         //check if password is correct
@@ -187,11 +188,14 @@ public class Server{
                             response.put("status", "returning");
 
 
-                        }else{
+                        }
+                        else{
                             System.out.println("Wrong password");
                             response.put("error","Wrong password.");
                         }
-                    }else{
+                    }
+                    else{
+                        System.out.println("Creating new user");
                         //create new user MONGO
                         //update database
                         addUserToDB(username,password);
@@ -200,12 +204,11 @@ public class Server{
                         addClient(username, twr);
 
                         response.put("status", "new");
-
                     }
-
                     e.putEvent(response);
                 }
-            }catch(Exception ex){
+            }
+            catch(Exception ex){
                 ex.printStackTrace();
             }
         }
