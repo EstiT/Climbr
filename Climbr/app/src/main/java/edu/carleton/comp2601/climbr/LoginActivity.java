@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     static LoginActivity instance;
     public static Connection c;
-    private static final String HOST = "172.17.196.214";
+    private static final String HOST = "172.17.209.105";
     private static int p = 2601;
 
     @Override
@@ -321,6 +321,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void run() {
                     //Connect to server
+                    Log.i("LoginActivity", "calling connect");
                     c.connect(HOST, p, mEmail.split("@")[0], mPassword);
                 }
             });
@@ -343,22 +344,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // TODO: register the new account here.
             return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Log.i("finalProject","HERE");
-                Intent i = new Intent(getApplicationContext(), TabbedActivity.class);
-                startActivity(i);
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override
