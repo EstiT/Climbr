@@ -81,7 +81,7 @@ public class Connection {
                 });
 
                 final String error = (String) e.get("error");
-                if(error == ""){
+                if(error.equals("none")){
                     //there is no error
                     //check if new or existing user
                     String status = (String) e.get("status");
