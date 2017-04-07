@@ -95,6 +95,8 @@ public class Connection {
                     else if (status.equals("returning")){
                         //bring them into app
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
+                        //send the users information with them
+                        i.putExtra("profile", e.get("profile"));
                         LoginActivity.getInstance().startActivity(i);
                     }
 
