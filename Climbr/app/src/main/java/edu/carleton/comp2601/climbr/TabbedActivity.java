@@ -64,6 +64,8 @@ import com.google.maps.android.data.kml.KmlPlacemark;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Timer;
 
 
@@ -94,6 +96,7 @@ public class TabbedActivity extends AppCompatActivity implements
     private final int PROFILE = 4;
 
     public static JSONObject data;
+    String myUsername;
 
     TabLayout tabLayout;
 
@@ -104,6 +107,8 @@ public class TabbedActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_tabbed);
 
         instance = this;
+        final Intent intent = getIntent();
+        myUsername = intent.getStringExtra("username");
 
         try{
             data = new JSONObject("{\n" +
@@ -169,6 +174,22 @@ public class TabbedActivity extends AppCompatActivity implements
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //send disconnect request
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+                map.put("username", myUsername);
+                LoginActivity.getInstance().c.sendRequest("DISCONNECT_REQUEST", map);
+            }
+        });
+        t.start();
 
     }
 

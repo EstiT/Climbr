@@ -120,9 +120,10 @@ public class Connection {
                 try{
                     String status = (String) e.get("status");
                     if(status.equals("success")){
-                        //redirect to tabbed activity
-                        Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
-                        LoginActivity.getInstance().startActivity(i);
+                        //redirect to tabbed activity, send user name as extra
+                        Intent i = new Intent(UserOnboardActivity.getInstance().getApplicationContext(), TabbedActivity.class);
+                        i.putExtra("username", UserOnboardActivity.getInstance().name.getText().toString());
+                        UserOnboardActivity.getInstance().startActivity(i);
                     }
                     else if (status.equals("failure")){
                         final String reason = (String) e.get("reason");
@@ -147,7 +148,7 @@ public class Connection {
             @Override
             public void handleEvent(Event e) {
                 Log.i("Connection", "Handling DISCONNECT RESPONSE");
-                //MainActivity.getInstance().terminate();
+
             }
         });
 
