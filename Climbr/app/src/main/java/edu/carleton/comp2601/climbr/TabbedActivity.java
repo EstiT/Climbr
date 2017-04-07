@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,6 +26,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +45,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -190,7 +194,15 @@ public class TabbedActivity extends AppCompatActivity implements
             }
         });
         t.start();
+    }
 
+    private Bitmap getBitmapFromString(String jsonString) {
+/*
+* This Function converts the String back to Bitmap
+* */
+        byte[] decodedString = Base64.decode(jsonString, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
     }
 
     public static TabbedActivity getInstance(){
@@ -473,6 +485,15 @@ public class TabbedActivity extends AppCompatActivity implements
 
     public static class ProfileFragment extends Fragment {
 
+        Button edit;
+        TextView name;
+        TextView bio;
+        TextView pullups;
+        TextView grade;
+        TextView age;
+        ImageButton dp;
+        TextView username;
+
         public ProfileFragment() {
         }
 
@@ -492,7 +513,40 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
 
+            edit = (Button) rootView.findViewById(R.id.button);
+            name  = (TextView)rootView.findViewById(R.id.name);
+            bio = (TextView)rootView.findViewById(R.id.bio);
+            pullups = (TextView)rootView.findViewById(R.id.pullups);
+            grade = (TextView)rootView.findViewById(R.id.grade);
+            age = (TextView)rootView.findViewById(R.id.age);
+            dp = (ImageButton)rootView.findViewById(R.id.imageButton);
+            username = (TextView)rootView.findViewById(R.id.username);
 
+            Intent intent = TabbedActivity.getInstance().getIntent();
+            String profileString = intent.getStringExtra("profile");
+            try{
+                JSONObject profileObject = new JSONObject(profileString);
+                name.setText(profileObject.get("name").toString());
+                bio.setText(profileObject.get("bio").toString());
+                pullups.setText(profileObject.get("pullups").toString());
+                grade.setText(profileObject.get("grade").toString());
+                age.setText(profileObject.get("age").toString());
+                username.setText(profileObject.get("username").toString());
+                dp.setImageBitmap(TabbedActivity.getInstance().getBitmapFromString(profileObject.get("img").toString()));
+                
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(UserOnboardActivity.getInstance().getApplicationContext(), TabbedActivity.class);
+                    UserOnboardActivity.getInstance().startActivity(i);
+                }
+            });
 
             return rootView;
         }

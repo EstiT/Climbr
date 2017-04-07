@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by olivi on 2017-02-21.
@@ -80,7 +81,7 @@ public class Connection {
                 });
 
                 final String error = (String) e.get("error");
-                if(error.equals("")){
+                if(error == ""){
                     //there is no error
                     //check if new or existing user
                     String status = (String) e.get("status");
@@ -88,7 +89,7 @@ public class Connection {
 //                        redirect to create new profile
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
                         i.putExtra("password", LoginActivity.getInstance().mPasswordView.getText().toString());
-                        i.putExtra("username", LoginActivity.getInstance().mEmailView.getText().toString());
+                        i.putExtra("email", LoginActivity.getInstance().mEmailView.getText().toString());
                         LoginActivity.getInstance().startActivity(i);
                     }
                     else if (status.equals("returning")){
@@ -122,7 +123,7 @@ public class Connection {
                     if(status.equals("success")){
                         //redirect to tabbed activity, send user name as extra
                         Intent i = new Intent(UserOnboardActivity.getInstance().getApplicationContext(), TabbedActivity.class);
-                        i.putExtra("username", UserOnboardActivity.getInstance().name.getText().toString());
+                        i.putExtra("profile", e.get("profile"));
                         UserOnboardActivity.getInstance().startActivity(i);
                     }
                     else if (status.equals("failure")){
@@ -155,23 +156,30 @@ public class Connection {
 
     }
 
-    public void sendRequest(String type, HashMap<String ,Serializable> data){
-        try {
-            //add the sender to every message
-            data.put("sender", user);
+    public void sendRequest(final String type, final HashMap<String ,Serializable> data){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //add the sender to every message
+                    data.put("sender", user);
 
-            JSONObject json = new JSONObject();
-            json.put("data", data);
+                    JSONObject json = new JSONObject((Map)data);
+                    //json.put("data", data);
 
-            Event e = new Event(type, thread.getEventSource());
-            e.put("json", json.toString());
+                    Event e = new Event(type, thread.getEventSource());
+                    e.put("json", json.toString());
 
-            Log.i("2601", "Writing object. event: " + e.type);
-            //send the event
-            e.putEvent();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+                    Log.i("2601", "Writing object. event: " + e.type);
+                    //send the event
+                    e.putEvent();
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+        t.start();
+
     }
 
 

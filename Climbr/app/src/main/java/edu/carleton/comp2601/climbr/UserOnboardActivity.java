@@ -2,6 +2,7 @@ package edu.carleton.comp2601.climbr;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -34,6 +35,7 @@ public class UserOnboardActivity extends AppCompatActivity {
     EditText pullups;
     EditText grade;
     EditText name;
+    EditText username;
     EditText age;
     ImageButton dp;
     Button button;
@@ -50,9 +52,10 @@ public class UserOnboardActivity extends AppCompatActivity {
         age = (EditText)findViewById(R.id.age);
         dp = (ImageButton)findViewById(R.id.imageButton);
         button = (Button)findViewById(R.id.button);
+        username = (EditText) findViewById(R.id.username);
 
         final Intent intent = getIntent();
-        name.setText(intent.getStringExtra("username"));
+        username.setText(intent.getStringExtra("email").toString().split("@")[0]);
 
         instance = this;
 
@@ -60,7 +63,9 @@ public class UserOnboardActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-                map.put("username", name.getText().toString());
+                map.put("name", name.getText().toString());
+                map.put("email", intent.getStringExtra("email"));
+                map.put("username", username.getText().toString());
                 map.put("password",intent.getStringExtra("password"));
                 map.put("bio",bio.getText().toString());
                 //for en/decoding http://mobile.cs.fsu.edu/converting-images-to-json-objects/
@@ -106,7 +111,7 @@ public class UserOnboardActivity extends AppCompatActivity {
     }
 
 
-    private String getStringFromBitmap(Bitmap bitmapPicture) {
+    public String getStringFromBitmap(Bitmap bitmapPicture) {
  /*
  * This functions converts Bitmap picture to a string which can be
  * JSONified.
@@ -122,7 +127,7 @@ public class UserOnboardActivity extends AppCompatActivity {
     }
 
 
-    private File createImageFile() throws IOException {
+    public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -141,7 +146,6 @@ public class UserOnboardActivity extends AppCompatActivity {
     public static UserOnboardActivity getInstance(){
         return instance;
     }
-
 
 }
 
