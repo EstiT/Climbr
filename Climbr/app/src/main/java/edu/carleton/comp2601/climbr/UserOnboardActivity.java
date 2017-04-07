@@ -11,6 +11,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,28 +46,27 @@ public class UserOnboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_onboard);
-        name  = (EditText)findViewById(R.id.name);
         bio = (EditText)findViewById(R.id.bio);
         pullups = (EditText)findViewById(R.id.pullups);
         grade = (EditText)findViewById(R.id.grade);
         age = (EditText)findViewById(R.id.age);
         dp = (ImageButton)findViewById(R.id.imageButton);
         button = (Button)findViewById(R.id.button);
-        username = (EditText) findViewById(R.id.username);
 
         final Intent intent = getIntent();
-        username.setText(intent.getStringExtra("email").toString().split("@")[0]);
 
         instance = this;
-
+        final String email = intent.getStringExtra("email").toString();
+        final String username = email.split("@")[0];
+        Log.i("COMP2601", "email: "+email + " username:" + username);
 
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
+
                 HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-                map.put("name", name.getText().toString());
-                map.put("email", intent.getStringExtra("email"));
-                map.put("username", username.getText().toString());
-                map.put("password",intent.getStringExtra("password"));
+                map.put("email", email);
+                map.put("username", username);
+                map.put("password",intent.getStringExtra("password").toString());
                 map.put("bio",bio.getText().toString());
                 //for en/decoding http://mobile.cs.fsu.edu/converting-images-to-json-objects/
                 Bitmap bitmap = ((BitmapDrawable)dp.getDrawable()).getBitmap();

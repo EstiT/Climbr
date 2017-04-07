@@ -25,38 +25,10 @@
             android:id="@+id/imageButton" />
 
         <TextView
-            android:text="Name:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imageButton"
-            android:id="@+id/textView" />
-
-        <EditText
-            android:text=""
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:id="@+id/name" />
-
-        <TextView
-            android:text="Username:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name"
-            android:id="@+id/textView2" />
-
-        <EditText
-            android:text=""
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView2"
-            android:id="@+id/username" />
-
-        <TextView
             android:text="Bio:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
+            android:layout_below="@id/imageButton"
             android:id="@+id/textView4" />
 
         <EditText
