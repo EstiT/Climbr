@@ -100,7 +100,8 @@ public class TabbedActivity extends AppCompatActivity implements
     private final int PROFILE = 4;
 
     public static JSONObject data;
-    String myUsername;
+    static String myUsername;
+    static String recipient= "";
 
     TabLayout tabLayout;
 
@@ -394,8 +395,6 @@ public class TabbedActivity extends AppCompatActivity implements
         }
     }
 
-
-
     public static class FindBelayerFragment extends Fragment {
 
         CustomPagerAdapter mCustomPagerAdapter;
@@ -455,8 +454,12 @@ public class TabbedActivity extends AppCompatActivity implements
         }
     }
 
-
     public static class ConnectFragment extends Fragment {
+
+        TextView title, messages;
+        EditText msgText;
+        static ConnectFragment instance;
+
 
         public ConnectFragment() {
         }
@@ -470,16 +473,49 @@ public class TabbedActivity extends AppCompatActivity implements
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+            instance = this;
+
+        }
+
+        public static ConnectFragment getInstance(){
+            return instance;
+        }
+
+        public void addMsg(String m){
+            messages.setText(messages.getText().toString() + "\n" + m);
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.connect_fragment, container, false);
+            title = (EditText) rootView.findViewById(R.id.msgText);
+            title.setText("Messaging" + recipient);
+            messages = (EditText) rootView.findViewById(R.id.msgText);
+            msgText = (EditText) rootView.findViewById(R.id.msgText);
 
 
 
             return rootView;
+        }
+
+        public void sendClicked(View v){
+            sendMessage(msgText.getText().toString());
+        }
+
+        public void sendMessage(final String msg){
+            //send message request
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+                    map.put("username", myUsername);
+                    map.put("recipient", recipient);
+                    map.put("message",msg);
+                    LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
+                }
+            });
+            t.start();
         }
     }
 
@@ -547,8 +583,6 @@ public class TabbedActivity extends AppCompatActivity implements
             return rootView;
         }
     }
-
-
 
     public static class MyTrainerFragment extends Fragment {
         Chronometer timer;
