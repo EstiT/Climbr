@@ -23,6 +23,7 @@ public class CustomPagerAdapter extends PagerAdapter {
 
         Context mContext;
         LayoutInflater mLayoutInflater;
+        TextView name;
 
         public CustomPagerAdapter(Context context) {
             mContext = context;
@@ -44,11 +45,13 @@ public class CustomPagerAdapter extends PagerAdapter {
             View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            name = (TextView)itemView.findViewById(R.id.name);
             imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);
             imageView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Log.i("CustomPageAdapter","profile picture was long clicked");
+                    TabbedActivity.recipient = (String)name.getText();
                     TabbedActivity.getInstance().tabLayout.getTabAt(2).select();
                     return true;
                 }
@@ -58,7 +61,6 @@ public class CustomPagerAdapter extends PagerAdapter {
             bio.setText(TabbedActivity.FindBelayerFragment.bioResources[position]);
             bio.setTextSize(16.0f);
 
-            TextView name = (TextView)itemView.findViewById(R.id.name);
             name.setTextSize(30.0f);
             name.setText(TabbedActivity.FindBelayerFragment.nameResources[position]);
 

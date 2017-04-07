@@ -144,6 +144,22 @@ public class Connection {
             }
         });
 
+        r.register("MESSAGE_RESPONSE", new EventHandler() {
+            @Override
+            public void handleEvent(Event e) {
+                Log.i("Connection", "Handling MESSAGE RESPONSE");
+                //check if success or fail
+                try{
+                    String msg = (String) e.get("msg");
+                    TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
+
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+
 
         r.register("DISCONNECT_RESPONSE", new EventHandler() {
             @Override
