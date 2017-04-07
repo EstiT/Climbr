@@ -59,9 +59,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
+    AutoCompleteTextView mEmailView;
+    EditText mPasswordView;
+    View mProgressView;
     private View mLoginFormView;
     static LoginActivity instance;
     public static Connection c;

@@ -79,13 +79,16 @@ public class Connection {
                     }
                 });
 
-                //check if new or existing user
-                try{
+                final String error = (String) e.get("error");
+                if(error.equals("")){
+                    //there is no error
+                    //check if new or existing user
                     String status = (String) e.get("status");
-
                     if(status.equals("new")){
-                        //redirect to create new profile
+//                        redirect to create new profile
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
+                        i.putExtra("password", LoginActivity.getInstance().mPasswordView.getText().toString());
+                        i.putExtra("username", LoginActivity.getInstance().mEmailView.getText().toString());
                         LoginActivity.getInstance().startActivity(i);
                     }
                     else if (status.equals("returning")){
@@ -93,15 +96,51 @@ public class Connection {
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
                         LoginActivity.getInstance().startActivity(i);
                     }
+
+                }
+                else{
+                    //there is an error, display in toast and clear password field
+                    LoginActivity.getInstance().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast t = Toast.makeText(LoginActivity.getInstance().getApplicationContext(), error, Toast.LENGTH_LONG);
+                            t.show();
+                            LoginActivity.getInstance().mPasswordView.setText("");
+                        }
+                    });
+                }
+            }
+        });
+
+        r.register("UPDATE_PROFILE_RESPONSE", new EventHandler() {
+            @Override
+            public void handleEvent(Event e) {
+                Log.i("Connection", "Handling UPDATE USER RESPONSE");
+                //check if success or fail
+                try{
+                    String status = (String) e.get("status");
+                    if(status.equals("success")){
+                        //redirect to tabbed activity
+                        Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
+                        LoginActivity.getInstance().startActivity(i);
+                    }
+                    else if (status.equals("failure")){
+                        final String reason = (String) e.get("reason");
+                        UserOnboardActivity.getInstance().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast t = Toast.makeText(LoginActivity.getInstance().getApplicationContext(), reason, Toast.LENGTH_LONG);
+                                t.show();
+                                LoginActivity.getInstance().mPasswordView.setText("");
+                            }
+                        });
+                    }
                 }
                 catch(Exception ex){
                     ex.printStackTrace();
                 }
-
             }
         });
-
-
 
 
         r.register("DISCONNECT_RESPONSE", new EventHandler() {
