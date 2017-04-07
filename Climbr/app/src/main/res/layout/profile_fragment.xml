@@ -16,7 +16,6 @@
 
 
         <ImageButton
-            app:srcCompat="@drawable/profile"
             android:gravity="center_vertical"
             android:layout_width="120dp"
             android:layout_height="120dp"
@@ -31,91 +30,63 @@
             android:id="@+id/button" />
 
         <TextView
-            android:text="Name:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imageButton"
-            android:id="@+id/textView" />
-
-        <EditText
-            android:text=""
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:id="@+id/name" />
-
-        <TextView
-            android:text="Username:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name"
-            android:id="@+id/textView2" />
-
-        <EditText
-            android:text=""
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView2"
-            android:id="@+id/username" />
-
-        <TextView
             android:text="Bio:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
+            android:layout_below="@id/imageButton"
             android:id="@+id/textView4" />
 
-        <EditText
+        <TextView
             android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_below="@id/textView4"
+            android:layout_toRightOf="@id/textView4"
             android:id="@+id/bio" />
 
         <TextView
             android:text="Max Pullups:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bio"
+            android:layout_below="@id/textView4"
             android:id="@+id/textView5" />
 
-        <EditText
+        <TextView
             android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_below="@id/textView5"
+            android:layout_toRightOf="@id/textView5"
             android:id="@+id/pullups" />
 
         <TextView
             android:text="Max climbing grade:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pullups"
+            android:layout_below="@id/textView5"
             android:id="@+id/textView6" />
 
-        <EditText
+        <TextView
             android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_below="@id/textView6"
+            android:layout_toRightOf="@id/textView6"
             android:id="@+id/grade" />
 
         <TextView
             android:text="Age:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/grade"
+            android:layout_below="@id/textView6"
             android:id="@+id/textView7" />
 
-        <EditText
+        <TextView
             android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_below="@id/textView7"
+            android:layout_toRightOf="@id/textView7"
             android:id="@+id/age" />
 
 

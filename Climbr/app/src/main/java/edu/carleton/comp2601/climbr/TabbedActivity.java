@@ -486,13 +486,12 @@ public class TabbedActivity extends AppCompatActivity implements
     public static class ProfileFragment extends Fragment {
 
         Button edit;
-        TextView name;
         TextView bio;
         TextView pullups;
         TextView grade;
         TextView age;
         ImageButton dp;
-        TextView username;
+
 
         public ProfileFragment() {
         }
@@ -514,26 +513,23 @@ public class TabbedActivity extends AppCompatActivity implements
             View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
 
             edit = (Button) rootView.findViewById(R.id.button);
-            name  = (TextView)rootView.findViewById(R.id.name);
             bio = (TextView)rootView.findViewById(R.id.bio);
             pullups = (TextView)rootView.findViewById(R.id.pullups);
             grade = (TextView)rootView.findViewById(R.id.grade);
             age = (TextView)rootView.findViewById(R.id.age);
             dp = (ImageButton)rootView.findViewById(R.id.imageButton);
-            username = (TextView)rootView.findViewById(R.id.username);
 
             Intent intent = TabbedActivity.getInstance().getIntent();
             String profileString = intent.getStringExtra("profile");
+            Log.i("COMP 2601", "pofile string:" + profileString);
             try{
                 JSONObject profileObject = new JSONObject(profileString);
-                name.setText(profileObject.get("name").toString());
                 bio.setText(profileObject.get("bio").toString());
-                pullups.setText(profileObject.get("pullups").toString());
-                grade.setText(profileObject.get("grade").toString());
+                pullups.setText(profileObject.get("maxPullups").toString());
+                grade.setText(profileObject.get("maxGrade").toString());
                 age.setText(profileObject.get("age").toString());
-                username.setText(profileObject.get("username").toString());
                 dp.setImageBitmap(TabbedActivity.getInstance().getBitmapFromString(profileObject.get("img").toString()));
-                
+                Log.i("COMP 2601","profile fields were set");
             }
             catch(Exception e){
                 e.printStackTrace();
