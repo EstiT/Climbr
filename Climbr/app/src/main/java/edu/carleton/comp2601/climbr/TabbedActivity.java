@@ -482,16 +482,16 @@ public class TabbedActivity extends AppCompatActivity implements
         }
 
         public void addMsg(String m){
-            messages.setText(messages.getText().toString() + "\n" + m);
+            messages.setText(messages.getText() + "\n" + m);
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.connect_fragment, container, false);
-            title = (EditText) rootView.findViewById(R.id.msgText);
-            title.setText("Messaging" + recipient);
-            messages = (EditText) rootView.findViewById(R.id.msgText);
+            title = (TextView) rootView.findViewById(R.id.title);
+
+            messages = (TextView) rootView.findViewById(R.id.messages);
             msgText = (EditText) rootView.findViewById(R.id.msgText);
 
 
@@ -499,7 +499,12 @@ public class TabbedActivity extends AppCompatActivity implements
             return rootView;
         }
 
+        public void changeTitle(String s){
+            title.setText(s);
+        }
+
         public void sendClicked(View v){
+            Log.i("2601","Send clicked");
             sendMessage(msgText.getText().toString());
         }
 
@@ -557,7 +562,7 @@ public class TabbedActivity extends AppCompatActivity implements
 
             Intent intent = TabbedActivity.getInstance().getIntent();
             String profileString = intent.getStringExtra("profile");
-            Log.i("COMP 2601", "pofile string:" + profileString);
+            Log.i("COMP 2601", "profile string:" + profileString);
             try{
                 JSONObject profileObject = new JSONObject(profileString);
                 bio.setText(profileObject.get("bio").toString());

@@ -3,6 +3,7 @@ package edu.carleton.comp2601.climbr;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -46,12 +47,15 @@ public class CustomPagerAdapter extends PagerAdapter {
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
             name = (TextView)itemView.findViewById(R.id.name);
+            final int pos = position;
             imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);
             imageView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Log.i("CustomPageAdapter","profile picture was long clicked");
-                    TabbedActivity.recipient = (String)name.getText();
+                    TabbedActivity.recipient = TabbedActivity.FindBelayerFragment.nameResources[pos];
+                    TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+ TabbedActivity.recipient);
+                    //Log.i("2601", "name "+ (String)name.getText() + " \nnameresource" + TabbedActivity.FindBelayerFragment.nameResources[pos]);
                     TabbedActivity.getInstance().tabLayout.getTabAt(2).select();
                     return true;
                 }

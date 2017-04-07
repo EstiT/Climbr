@@ -150,8 +150,15 @@ public class Connection {
                 Log.i("Connection", "Handling MESSAGE RESPONSE");
                 //check if success or fail
                 try{
-                    String msg = (String) e.get("msg");
-                    TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
+                    String err = (String) e.get("error");
+
+                    if(err.equals("none")) {
+                        String msg = (String) e.get("msg");
+                        TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
+                    }else{
+                        //toast TODO
+                        Log.i("2601", "Error in messaging:  " + err);
+                    }
 
                 }
                 catch(Exception ex){
