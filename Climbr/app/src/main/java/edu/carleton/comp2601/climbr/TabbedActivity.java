@@ -575,7 +575,7 @@ public class TabbedActivity extends AppCompatActivity implements
             TextView pullups = (TextView)rootView.findViewById(R.id.profilePullups);
             TextView grade = (TextView)rootView.findViewById(R.id.profileGrade);
             TextView age = (TextView)rootView.findViewById(R.id.profileAge);
-            ImageButton dp = (ImageButton)rootView.findViewById(R.id.profileImageButton);
+            ImageView dp = (ImageView)rootView.findViewById(R.id.profileImage);
 
             try{
 
