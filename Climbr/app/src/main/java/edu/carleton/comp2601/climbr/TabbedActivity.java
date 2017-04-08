@@ -416,8 +416,14 @@ public class TabbedActivity extends AppCompatActivity implements
             return instance;
         }
 
-        public void addMsg(String m){
-            messages.setText(messages.getText() + "\n" + m);
+        public void addMsg(final String m){
+            TabbedActivity.getInstance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    messages.setText(messages.getText() + "\n" + m);
+
+                }
+            });
         }
 
         @Override
