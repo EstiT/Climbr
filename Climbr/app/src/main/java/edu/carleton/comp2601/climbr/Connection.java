@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.carleton.comp2601.climbr.TabbedActivity.FindBelayerFragment.bioResources;
+import static edu.carleton.comp2601.climbr.TabbedActivity.FindBelayerFragment.mResources;
+import static edu.carleton.comp2601.climbr.TabbedActivity.FindBelayerFragment.nameResources;
+
 /**
  * Created by olivi on 2017-02-21.
  */
@@ -112,6 +116,43 @@ public class Connection {
                         }
                     });
                 }
+            }
+        });
+
+        r.register("PROFILE_RESPONSE", new EventHandler() {
+            @Override
+            public void handleEvent(Event e) {
+                Log.i("2601", "Handling PROFILE_RESPONSE");
+                try{
+                    final String profiles = (String) e.get("profiles");
+                    //Log.i("2601", profile);
+
+
+                    JSONArray obj = new JSONArray(profiles);
+                    Log.i("2601", obj.toString());
+                    //Log.i("2601", (String)obj.get("bio"));
+
+                    for(int i=0;i<obj.length();i++){
+                        String jsonString = obj.getString(i);
+
+                        JSONObject json = new JSONObject(jsonString);
+                        //add to datafill
+                        mResources.add((String)json.get("img"));
+                        bioResources.add((String)json.get("bio"));
+                        nameResources.add((String)json.get("username"));
+                        Log.i("2601", "Adding "+ (String)json.get("username"));
+                        CustomPagerAdapter.getInstance().notifyDataSetChanged();
+
+                    }
+
+
+
+                    CustomPagerAdapter.getInstance().notifyDataSetChanged();
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
             }
         });
 

@@ -1,6 +1,8 @@
 package edu.carleton.comp2601.climbr;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -42,6 +45,8 @@ public class UserOnboardActivity extends AppCompatActivity {
     Button button;
     static UserOnboardActivity instance;
 
+    Uri pURI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,19 +59,29 @@ public class UserOnboardActivity extends AppCompatActivity {
         button = (Button)findViewById(R.id.button);
 
         final Intent intent = getIntent();
+        if(intent.hasExtra("email")){
+            final String email = intent.getStringExtra("email").toString();
+            final String username = email.split("@")[0];
+            Log.i("COMP2601", "email: "+email + " username:" + username);
+        }
 
         instance = this;
-        final String email = intent.getStringExtra("email").toString();
-        final String username = email.split("@")[0];
-        Log.i("COMP2601", "email: "+email + " username:" + username);
+
 
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
 
                 HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-                map.put("email", email);
-                map.put("username", username);
-                map.put("password",intent.getStringExtra("password").toString());
+                if(intent.hasExtra("username")){
+                    map.put("email", intent.getStringExtra("email").toString());
+                    map.put("username", (intent.getStringExtra("email").toString()).split("@")[0]);
+
+                }
+
+                if(intent.hasExtra("password")){
+                    map.put("password",intent.getStringExtra("password").toString());
+
+                }
                 map.put("bio",bio.getText().toString());
                 //for en/decoding http://mobile.cs.fsu.edu/converting-images-to-json-objects/
                 Bitmap bitmap = ((BitmapDrawable)dp.getDrawable()).getBitmap();
@@ -86,11 +101,18 @@ public class UserOnboardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //https://developer.android.com/training/camera/photobasics.html
                 dispatchTakePictureIntent();
+
             }
         });
     }
 
     private void dispatchTakePictureIntent() {
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_TAKE_PHOTO);
+        }
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -103,13 +125,28 @@ public class UserOnboardActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
+                System.out.println("photofile "+photoFile);
                 Uri photoURI = FileProvider.getUriForFile(this, "edu.carleton.comp2601.climbr.fileprovider", photoFile);
+                System.out.println("photouri "+photoURI);
+                pURI = photoURI;
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                Log.i("2601", "start act for result take pic intent");
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
             }
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("2601", "On activity result reqCode: "+ requestCode+" result code: "+resultCode);
+        Uri photoURI = data.getData();
+        Log.i("2601", "photoURI "+photoURI);
+        dp.setImageURI(photoURI);
+        dp.setImageURI(pURI);
+    }
 
     public String getStringFromBitmap(Bitmap bitmapPicture) {
  /*
@@ -140,6 +177,7 @@ public class UserOnboardActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
+
         return image;
     }
 

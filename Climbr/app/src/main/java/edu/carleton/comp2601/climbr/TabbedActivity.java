@@ -69,6 +69,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 
@@ -399,8 +400,14 @@ public class TabbedActivity extends AppCompatActivity implements
 
         CustomPagerAdapter mCustomPagerAdapter;
         ViewPager mViewPager;
+        static ArrayList<String> mResources = new ArrayList<String>();
+        static ArrayList<String> bioResources = new ArrayList<String>();
+        static ArrayList<String> nameResources= new ArrayList<String>();;
 
-
+//        static int[]  mResources = {};
+//        static String[] bioResources = {};
+//        static String[] nameResources = {};
+/*
         static int[]  mResources = {
                 R.drawable.profile,
                 R.drawable.profile3,
@@ -422,6 +429,8 @@ public class TabbedActivity extends AppCompatActivity implements
                 "Alex",
                 "Mary"
         };
+*/
+
         public FindBelayerFragment() {
         }
 
@@ -448,10 +457,22 @@ public class TabbedActivity extends AppCompatActivity implements
             mViewPager = (ViewPager)rootView.findViewById(R.id.pager);
             mViewPager.setAdapter(mCustomPagerAdapter);
 
+            //send message request
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+                    LoginActivity.getInstance().c.sendRequest("PROFILES", map);
+                }
+            });
+            t.start();
 
 
             return rootView;
         }
+
+
+
     }
 
     public static class ConnectFragment extends Fragment {
@@ -580,8 +601,8 @@ public class TabbedActivity extends AppCompatActivity implements
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(UserOnboardActivity.getInstance().getApplicationContext(), TabbedActivity.class);
-                    UserOnboardActivity.getInstance().startActivity(i);
+                    Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
+                    LoginActivity.getInstance().startActivity(i);
                 }
             });
 

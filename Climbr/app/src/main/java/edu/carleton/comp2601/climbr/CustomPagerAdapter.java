@@ -3,9 +3,12 @@ package edu.carleton.comp2601.climbr;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,66 +20,87 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 /**
- * Created by estitweg on 2017-03-04.
- */
+* Created by estitweg on 2017-03-04.
+*/
 public class CustomPagerAdapter extends PagerAdapter {
 
 
-        Context mContext;
-        LayoutInflater mLayoutInflater;
-        TextView name;
+    Context mContext;
+    LayoutInflater mLayoutInflater;
+    TextView name;
 
-        public CustomPagerAdapter(Context context) {
-            mContext = context;
-            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
+    static CustomPagerAdapter instance;
 
-        @Override
-        public int getCount() {
-            return TabbedActivity.FindBelayerFragment.mResources.length;
-        }
 
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == ((LinearLayout) object);
-        }
+    public CustomPagerAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        instance = this;
+    }
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+    public static CustomPagerAdapter getInstance(){
+        return instance;
+    }
 
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            name = (TextView)itemView.findViewById(R.id.name);
-            final int pos = position;
-            imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);
-            imageView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Log.i("CustomPageAdapter","profile picture was long clicked");
-                    TabbedActivity.recipient = TabbedActivity.FindBelayerFragment.nameResources[pos];
-                    TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+ TabbedActivity.recipient);
-                    //Log.i("2601", "name "+ (String)name.getText() + " \nnameresource" + TabbedActivity.FindBelayerFragment.nameResources[pos]);
-                    TabbedActivity.getInstance().tabLayout.getTabAt(2).select();
-                    return true;
-                }
-            });
+    @Override
+    public int getCount() {
+        return TabbedActivity.FindBelayerFragment.mResources.size();
+    }
 
-            TextView bio = (TextView)itemView.findViewById(R.id.bio);
-            bio.setText(TabbedActivity.FindBelayerFragment.bioResources[position]);
-            bio.setTextSize(16.0f);
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == ((LinearLayout) object);
+    }
 
-            name.setTextSize(30.0f);
-            name.setText(TabbedActivity.FindBelayerFragment.nameResources[position]);
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
 
-            container.addView(itemView);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        name = (TextView)itemView.findViewById(R.id.name);
+        final int pos = position;
 
-            return itemView;
-        }
+        //Setting image
+        //imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);//TODO
+        final String pureBase64Encoded = TabbedActivity.FindBelayerFragment.mResources.get(position);
+        final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        imageView.setImageBitmap(decodedBitmap);
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((LinearLayout) object);
-        }
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i("CustomPageAdapter","profile picture was long clicked");
+                TabbedActivity.recipient = TabbedActivity.FindBelayerFragment.nameResources.get(pos);
+                TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+ TabbedActivity.recipient);
+                //Log.i("2601", "name "+ (String)name.getText() + " \nnameresource" + TabbedActivity.FindBelayerFragment.nameResources[pos]);
+                TabbedActivity.getInstance().tabLayout.getTabAt(2).select();
+                return true;
+            }
+        });
+
+        TextView bio = (TextView)itemView.findViewById(R.id.bio);
+        bio.setText(TabbedActivity.FindBelayerFragment.bioResources.get(position));
+        bio.setTextSize(16.0f);
+
+        name.setTextSize(30.0f);
+        name.setText(TabbedActivity.FindBelayerFragment.nameResources.get(position));
+
+        //TODO error here sometimes: 04-07 23:02:13.778 10060-10725/edu.carleton.comp2601.climbr W/System.err: android.view.ViewRootImpl$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+
+        container.addView(itemView);
+
+        return itemView;
+    }
+
+    public void refresh(){
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((LinearLayout) object);
+    }
 
 
 
