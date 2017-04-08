@@ -26,14 +26,14 @@
             android:text="Edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/profileImageButton"
+            android:layout_toRightOf="@id/profileImage"
             android:id="@+id/profileButton" />
 
         <TextView
             android:text="Bio:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileImageButton"
+            android:layout_below="@id/profileImage"
             android:id="@+id/profileTextView4" />
 
         <TextView
