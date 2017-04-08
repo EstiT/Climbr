@@ -19,6 +19,10 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 /**
 * Created by estitweg on 2017-03-04.
 */
@@ -54,7 +58,7 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, int position) {
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
         final View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
@@ -63,10 +67,32 @@ public class CustomPagerAdapter extends PagerAdapter {
 
         //Setting image
         //imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);//TODO
-        final String pureBase64Encoded = TabbedActivity.FindBelayerFragment.mResources.get(position);
-        final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
-        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        imageView.setImageBitmap(decodedBitmap);
+//        final String pureBase64Encoded = TabbedActivity.FindBelayerFragment.mResources.get(position);
+//        final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+//        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+        File file = TabbedActivity.FindBelayerFragment.mResources.get(position);
+        try {
+            FileReader fr = new FileReader(file.getAbsoluteFile());
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder text = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            String pureBase64Encoded = text.toString();
+            Log.i("2601", "Read from file: " + pureBase64Encoded);
+            br.close();
+            final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            Log.i("2601 ", "setting image: " + decodedBitmap);
+            imageView.setImageBitmap(decodedBitmap);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        //imageView.setImageBitmap(TabbedActivity.FindBelayerFragment.mResources.get(position));
 
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

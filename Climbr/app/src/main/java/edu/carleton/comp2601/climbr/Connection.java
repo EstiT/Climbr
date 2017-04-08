@@ -2,13 +2,20 @@ package edu.carleton.comp2601.climbr;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -138,8 +145,17 @@ public class Connection {
 
                         JSONObject json = new JSONObject(jsonString);
                         //add to datafill
-                        mResources.add((String)json.get("img"));
-                        LoginActivity.getInstance().runOnUiThread(new Runnable() {
+
+                        File file = File.createTempFile((String)json.get("username"), null, TabbedActivity.getInstance().getCacheDir());
+
+
+                        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        bw.write((String)json.get("img"));
+                        bw.close();
+
+                        mResources.add(file);
+                        TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Log.i("2601", "Notifying pageadapter");
@@ -152,7 +168,7 @@ public class Connection {
                         Log.i("2601", "Adding "+ (String)json.get("username"));
 
                         CustomPagerAdapter.getInstance().notifyDataSetChanged();
- 
+
 
                     }
 

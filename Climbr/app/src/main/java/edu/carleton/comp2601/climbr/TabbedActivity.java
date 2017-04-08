@@ -68,6 +68,7 @@ import com.google.maps.android.data.kml.KmlPlacemark;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -400,7 +401,7 @@ public class TabbedActivity extends AppCompatActivity implements
 
         CustomPagerAdapter mCustomPagerAdapter;
         ViewPager mViewPager;
-        static ArrayList<String> mResources = new ArrayList<String>();
+        static ArrayList<File> mResources = new ArrayList<File>();
         static ArrayList<String> bioResources = new ArrayList<String>();
         static ArrayList<String> nameResources= new ArrayList<String>();;
 
