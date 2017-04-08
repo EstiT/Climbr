@@ -26,7 +26,8 @@
             android:text="Edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/profileImage"/>
+            android:layout_toRightOf="@id/profileImage"
+            android:id="@+id/profileEditButton"/>
         <TextView
             android:text="Bio:"
             android:textStyle="bold"
