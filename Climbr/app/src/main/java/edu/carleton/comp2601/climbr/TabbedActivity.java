@@ -436,19 +436,27 @@ public class TabbedActivity extends AppCompatActivity implements
             title.setText(s);
         }
 
-        public void sendClicked(View v){
-            Log.i("2601","Send clicked");
-            sendMessage(msgText.getText().toString());
+        public String getMessageText(){
+            return msgText.getText().toString();
         }
 
-        public void sendMessage(final String msg){
-            //send message request
-            HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-            map.put("username", myUsername);
-            map.put("recipient", recipient);
-            map.put("message",msg);
-            LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
-        }
+
+
+
+    }
+
+    public void sendClicked(View v){
+        Log.i("2601","Send clicked");
+        sendMessage(ConnectFragment.getInstance().getMessageText());
+    }
+
+    public void sendMessage(final String msg){
+        //send message request
+        HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+        map.put("username", myUsername);
+        map.put("recipient", recipient);
+        map.put("message",msg);
+        LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
     }
 
     public static class ProfileFragment extends Fragment {
