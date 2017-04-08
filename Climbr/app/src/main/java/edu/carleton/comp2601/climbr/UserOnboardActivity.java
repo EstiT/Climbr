@@ -23,7 +23,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -151,7 +153,26 @@ public class UserOnboardActivity extends AppCompatActivity {
 //        Uri photoURI = data.getData();
 //        Log.i("2601", "photoURI "+photoURI);
 //        dp.setImageURI(photoURI);
-        dp.setImageURI(pURI);
+
+        //dp.setImageURI(pURI);
+
+        /*InputStream imageStream = null;
+        try {
+            imageStream = getContentResolver().openInputStream(
+                    pURI);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap bmp = BitmapFactory.decodeStream(imageStream);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 0, stream);
+        byte[] byteArray = stream.toByteArray();
+        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        dp.setImageBitmap(decodedBitmap);*/
+
+
     }
 
     public String getStringFromBitmap(Bitmap bitmapPicture) {

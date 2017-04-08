@@ -71,6 +71,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -146,7 +147,7 @@ public class TabbedActivity extends AppCompatActivity implements
 
     @Override
     public void onDestroy(){
-        super.onDestroy();
+        //super.onDestroy();
         //send disconnect request
         Thread t = new Thread(new Runnable() {
             @Override
@@ -157,6 +158,7 @@ public class TabbedActivity extends AppCompatActivity implements
             }
         });
         t.start();
+        super.onDestroy();
     }
 
     private Bitmap getBitmapFromString(String jsonString) {
@@ -250,8 +252,30 @@ public class TabbedActivity extends AppCompatActivity implements
 
                     try {
 
+                        //KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
+                        //layer.addLayerToMap();
+
+                        ArrayList<Marker> markers = new ArrayList<Marker>();
+
                         KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
                         layer.addLayerToMap();
+
+                        for (KmlPlacemark p : layer.getPlacemarks()) {
+                            Log.i("2601", "Placemark:  "+ p.toString());
+                        }
+                        for (KmlContainer c : layer.getContainers()) {
+                            for (KmlContainer c1 : c.getContainers()) {
+                                for (KmlPlacemark p : c1.getPlacemarks()) {
+                                    Log.i(this.getClass().getName(), p.toString());
+                                    String name = p.getProperty("name");
+                                    LatLng pt = (LatLng) p.getGeometry().getGeometryObject();
+                                    markers.add(mMap.addMarker(new MarkerOptions().position(pt)
+                                            .title(name).snippet("Information for: " + name)));
+                                }
+                            }
+                        }
+
+
                         /*
                         Log.i("2601", "layer: " + layer.getPlacemarks().toString());
                         Log.i("2601", "layer: " + layer.getContainers().toString());

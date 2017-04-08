@@ -61,8 +61,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     static LoginActivity instance;
     public static Connection c;
-    private static final String HOST = "192.168.0.22";
-    //private static final String HOST = "52.11.225.233";
+    //private static final String HOST = "192.168.0.22";
+    private static final String HOST = "52.11.225.233";
 
     private static int p = 2601;
 
