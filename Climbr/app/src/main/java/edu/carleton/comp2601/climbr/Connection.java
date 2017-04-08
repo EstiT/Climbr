@@ -238,7 +238,8 @@ public class Connection {
                     String err = (String) e.get("error");
 
                     if(err.equals("none")) {
-                        String msg = (String) e.get("msg");
+                        String msg = (String) e.get("message");
+                        Log.i("2601", "msg: " + msg);
                         TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
                     }else{
                         //toast TODO
