@@ -82,11 +82,11 @@ public class CustomPagerAdapter extends PagerAdapter {
                 text.append('\n');
             }
             String pureBase64Encoded = text.toString();
-            Log.i("2601", "Read from file: " + pureBase64Encoded);
+            //Log.i("2601", "Read from file: " + pureBase64Encoded);
             br.close();
             final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
             Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-            Log.i("2601 ", "setting image: " + decodedBitmap);
+            //Log.i("2601 ", "setting image: " + decodedBitmap);
             imageView.setImageBitmap(decodedBitmap);
         }catch(Exception e){
             e.printStackTrace();

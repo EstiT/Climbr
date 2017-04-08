@@ -145,10 +145,10 @@ public class Connection {
                     for(int i=0;i<obj.length();i++){
                         String jsonString = obj.getString(i);
 
-                        JSONObject json = new JSONObject(jsonString);
+                        final JSONObject json = new JSONObject(jsonString);
                         //add to datafill
 
-                        File file = File.createTempFile((String)json.get("username"), null, TabbedActivity.getInstance().getCacheDir());
+                        final File file = File.createTempFile((String)json.get("username"), null, TabbedActivity.getInstance().getCacheDir());
 
 
                         FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -156,18 +156,26 @@ public class Connection {
                         bw.write((String)json.get("img"));
                         bw.close();
 
-                        mResources.add(file);
                         TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                mResources.add(file);
+
+                                try {
+                                    bioResources.add((String) json.get("bio"));
+                                    nameResources.add((String) json.get("username"));
+                                    Log.i("2601", "Adding " + (String) json.get("username"));
+                                }catch(Exception ex){
+                                    ex.printStackTrace();
+                                }
+
+
                                 Log.i("2601", "Notifying pageadapter");
                                 CustomPagerAdapter.getInstance().notifyDataSetChanged();
                             }
                         });
 
-                        bioResources.add((String)json.get("bio"));
-                        nameResources.add((String)json.get("username"));
-                        Log.i("2601", "Adding "+ (String)json.get("username"));
+
 
                         CustomPagerAdapter.getInstance().notifyDataSetChanged();
 
