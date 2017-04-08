@@ -13,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -116,43 +117,12 @@ public class TabbedActivity extends AppCompatActivity implements
         final Intent intent = getIntent();
         myUsername = intent.getStringExtra("username");
 
-        try{
-            data = new JSONObject("{\n" +
-                    "  \"people\": {\n" +
-                    "    \"esti\": {\n" +
-                    "      \"name\": \"Esti\",\n" +
-                    "      \"bio\": \"I love rockclimbing and also Olivia\"\n" +
-                    "    },\n" +
-                    "    \"olivia\": {\n" +
-                    "      \"name\": \"Olivia\",\n" +
-                    "      \"bio\": \"Climb me or with me\"\n" +
-                    "    },\n" +
-                    "    \"david\": {\n" +
-                    "      \"name\": \"David\",\n" +
-                    "      \"bio\": \"The best thing about me is my girlfriend\"\n" +
-                    "    }\n" +
-                    "  }\n" +
-                    "}");
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-/*
-        try {
-            JSONObject people = (JSONObject) (TabbedActivity.data.get("people"));
-            while (people.keys().hasNext()) {
-                t.setText(people.keys().next());
-            }
-            for (String id : people.keys()) {
-
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(0);  // clear all scroll flags
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -169,17 +139,7 @@ public class TabbedActivity extends AppCompatActivity implements
         tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),android.R.drawable.stat_notify_chat, null));
         tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(),R.mipmap.ic_alarm_on_white_48dp, null));
         tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.climber, null));
-//
 
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
     }
 
@@ -230,7 +190,6 @@ public class TabbedActivity extends AppCompatActivity implements
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -264,10 +223,10 @@ public class TabbedActivity extends AppCompatActivity implements
 
             mMapView.onResume(); // needed to get the map to display immediately
 
-
             try {
                 MapsInitializer.initialize(getActivity().getApplicationContext());
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -312,10 +271,8 @@ public class TabbedActivity extends AppCompatActivity implements
                                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
                                     Log.i("2601", " name: " +p.getProperty("name"));
-
                                 }
                             }
-
                         }*/
                         layer.setOnFeatureClickListener(new Layer.OnFeatureClickListener() {
                             @Override
@@ -324,8 +281,8 @@ public class TabbedActivity extends AppCompatActivity implements
                                 Log.i("2601", "Feature name" + feature.getProperty("name"));
                             }
                         });
-
-                    }catch(Exception e){
+                    }
+                    catch(Exception e){
                         e.printStackTrace();
                     }
 
@@ -344,9 +301,6 @@ public class TabbedActivity extends AppCompatActivity implements
                             return true;
                         }
                     });
-
-
-
                 }
 
 
@@ -367,7 +321,6 @@ public class TabbedActivity extends AppCompatActivity implements
                     return newLatLng;
                 }
             });
-
             return rootView;
         }
 
@@ -404,33 +357,6 @@ public class TabbedActivity extends AppCompatActivity implements
         static ArrayList<String> bioResources = new ArrayList<String>();
         static ArrayList<String> nameResources= new ArrayList<String>();;
 
-//        static int[]  mResources = {};
-//        static String[] bioResources = {};
-//        static String[] nameResources = {};
-/*
-        static int[]  mResources = {
-                R.drawable.profile,
-                R.drawable.profile3,
-                R.drawable.profile2,
-                R.drawable.profile4,
-                R.drawable.profile5
-        };
-        static String[] bioResources = {
-                "I love rockclimbing and also Olivia",
-                "Climb me or with me",
-                "The best thing about me is my girlfriend",
-                "Whats climbing",
-                "I climb too"
-        };
-        static String[] nameResources = {
-                "Esti",
-                "Olivia",
-                "David",
-                "Alex",
-                "Mary"
-        };
-*/
-
         public FindBelayerFragment() {
         }
 
@@ -451,28 +377,17 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.find_belayer_fragment, container, false);
 
-
             mCustomPagerAdapter = new CustomPagerAdapter(TabbedActivity.getInstance());
 
             mViewPager = (ViewPager)rootView.findViewById(R.id.pager);
             mViewPager.setAdapter(mCustomPagerAdapter);
 
             //send message request
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-                    LoginActivity.getInstance().c.sendRequest("PROFILES", map);
-                }
-            });
-            t.start();
-
+            HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+            LoginActivity.getInstance().c.sendRequest("PROFILES", map);
 
             return rootView;
         }
-
-
-
     }
 
     public static class ConnectFragment extends Fragment {
@@ -493,9 +408,7 @@ public class TabbedActivity extends AppCompatActivity implements
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             instance = this;
-
         }
 
         public static ConnectFragment getInstance(){
@@ -515,8 +428,6 @@ public class TabbedActivity extends AppCompatActivity implements
             messages = (TextView) rootView.findViewById(R.id.messages);
             msgText = (EditText) rootView.findViewById(R.id.msgText);
 
-
-
             return rootView;
         }
 
@@ -531,17 +442,11 @@ public class TabbedActivity extends AppCompatActivity implements
 
         public void sendMessage(final String msg){
             //send message request
-            Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-                    map.put("username", myUsername);
-                    map.put("recipient", recipient);
-                    map.put("message",msg);
-                    LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
-                }
-            });
-            t.start();
+            HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+            map.put("username", myUsername);
+            map.put("recipient", recipient);
+            map.put("message",msg);
+            LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
         }
     }
 
@@ -559,7 +464,6 @@ public class TabbedActivity extends AppCompatActivity implements
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
         }
 
         @Override
@@ -569,8 +473,7 @@ public class TabbedActivity extends AppCompatActivity implements
             Intent intent = TabbedActivity.getInstance().getIntent();
             String profileString = intent.getStringExtra("profile");
 
-
-            Button edit = (Button) rootView.findViewById(R.id.profileButton);
+            Button edit = (Button) rootView.findViewById(R.id.profileEditButton);
             TextView bio = (TextView)rootView.findViewById(R.id.profileBio);
             TextView pullups = (TextView)rootView.findViewById(R.id.profilePullups);
             TextView grade = (TextView)rootView.findViewById(R.id.profileGrade);
@@ -578,20 +481,16 @@ public class TabbedActivity extends AppCompatActivity implements
             ImageView dp = (ImageView)rootView.findViewById(R.id.profileImage);
 
             try{
-
                 JSONObject profileObject = new JSONObject(profileString);
                 bio.setText(profileObject.get("bio").toString());
-
                 pullups.setText(profileObject.get("maxPullups").toString());
                 grade.setText(profileObject.get("maxGrade").toString());
                 age.setText(profileObject.get("age").toString());
                 dp.setImageBitmap(TabbedActivity.getInstance().getBitmapFromString(profileObject.get("img").toString()));
-                Log.i("COMP 2601","profile fields were set");
             }
             catch(Exception e){
                 e.printStackTrace();
             }
-
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -610,11 +509,9 @@ public class TabbedActivity extends AppCompatActivity implements
         Chronometer timer;
         boolean running;
         long time;
-        //Button b;
 
         public MyTrainerFragment() {
         }
-
 
         public static MyTrainerFragment newInstance() {
             MyTrainerFragment fragment = new MyTrainerFragment();
@@ -642,11 +539,11 @@ public class TabbedActivity extends AppCompatActivity implements
                         timer.stop();
                         running = false;
                         time = timer.getBase() - SystemClock.elapsedRealtime();
-                    }else{
+                    }
+                    else{
                         timer.setBase(SystemClock.elapsedRealtime() + time);
                         timer.start();
-                        running=true;
-
+                        running = true;
                     }
                 }
             });
@@ -710,7 +607,6 @@ public class TabbedActivity extends AppCompatActivity implements
 
         @Override
         public Fragment getItem(int position) {
-
             switch (position){
                 case NEARBY_GYMS:
                     return NearbyGymsFragment.newInstance();
@@ -733,23 +629,6 @@ public class TabbedActivity extends AppCompatActivity implements
             return 5;
         }
 
-
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            switch (position) {
-//                case 0:
-//                    return "Nearby Gyms";
-//                case 1:
-//                    return "Find Belayers";
-//                case 2:
-//                    return "Connect";
-//                case 3:
-//                    return "Personal Trainer";
-//                case 4:
-//                    return "Profile";
-//            }
-//            return null;
-//        }
     }
 
     @Override
@@ -765,6 +644,8 @@ public class TabbedActivity extends AppCompatActivity implements
     public void onInfoWindowClick(Marker marker) {
         marker.hideInfoWindow();
     }
+
+
 
 
 }
