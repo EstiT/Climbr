@@ -597,6 +597,7 @@ public class TabbedActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
+                    i.putExtra("username", myUsername);
                     LoginActivity.getInstance().startActivity(i);
                 }
             });

@@ -72,10 +72,13 @@ public class UserOnboardActivity extends AppCompatActivity {
             public void onClick(View view){
 
                 HashMap<String, Serializable> map = new HashMap<String, Serializable>();
-                if(intent.hasExtra("username")){
+                if(intent.hasExtra("email")) {
                     map.put("email", intent.getStringExtra("email").toString());
                     map.put("username", (intent.getStringExtra("email").toString()).split("@")[0]);
 
+                }
+                if(intent.hasExtra("username")) {
+                    map.put("username", (intent.getStringExtra("username").toString()));
                 }
 
                 if(intent.hasExtra("password")){
@@ -84,7 +87,10 @@ public class UserOnboardActivity extends AppCompatActivity {
                 }
                 map.put("bio",bio.getText().toString());
                 //for en/decoding http://mobile.cs.fsu.edu/converting-images-to-json-objects/
+
+
                 Bitmap bitmap = ((BitmapDrawable)dp.getDrawable()).getBitmap();
+
                 String encodedImage = getStringFromBitmap(bitmap);
                 map.put("img",encodedImage);
                 map.put("maxPullups",pullups.getText().toString());
@@ -142,9 +148,9 @@ public class UserOnboardActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("2601", "On activity result reqCode: "+ requestCode+" result code: "+resultCode);
-        Uri photoURI = data.getData();
-        Log.i("2601", "photoURI "+photoURI);
-        dp.setImageURI(photoURI);
+//        Uri photoURI = data.getData();
+//        Log.i("2601", "photoURI "+photoURI);
+//        dp.setImageURI(photoURI);
         dp.setImageURI(pURI);
     }
 
@@ -153,10 +159,10 @@ public class UserOnboardActivity extends AppCompatActivity {
  * This functions converts Bitmap picture to a string which can be
  * JSONified.
  * */
-        final int COMPRESSION_QUALITY = 100;
+        final int COMPRESSION_QUALITY = 0;
         String encodedImage;
         ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+        bitmapPicture.compress(Bitmap.CompressFormat.JPEG, COMPRESSION_QUALITY,
                 byteArrayBitmapStream);
         byte[] b = byteArrayBitmapStream.toByteArray();
         encodedImage = Base64.encodeToString(b, Base64.DEFAULT);

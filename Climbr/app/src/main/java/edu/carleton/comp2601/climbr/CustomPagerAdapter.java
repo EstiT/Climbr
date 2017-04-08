@@ -53,8 +53,9 @@ public class CustomPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+    public Object instantiateItem(final ViewGroup container, int position) {
+        notifyDataSetChanged();
+        final View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
         name = (TextView)itemView.findViewById(R.id.name);
@@ -88,7 +89,13 @@ public class CustomPagerAdapter extends PagerAdapter {
 
         //TODO error here sometimes: 04-07 23:02:13.778 10060-10725/edu.carleton.comp2601.climbr W/System.err: android.view.ViewRootImpl$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
 
-        container.addView(itemView);
+        TabbedActivity.getInstance().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                container.addView(itemView);
+
+            }
+        });
 
         return itemView;
     }

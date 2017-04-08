@@ -100,7 +100,8 @@ public class Connection {
                         //bring them into app
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
                         //send the users information with them
-                        i.putExtra("profile", e.get("profile"));
+                        //i.putExtra("profile", e.get("profile"));
+                        i.putExtra("username", LoginActivity.getInstance().mEmailView.getText().toString().split("@")[0]);
                         LoginActivity.getInstance().startActivity(i);
                     }
 
@@ -138,16 +139,31 @@ public class Connection {
                         JSONObject json = new JSONObject(jsonString);
                         //add to datafill
                         mResources.add((String)json.get("img"));
+                        LoginActivity.getInstance().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i("2601", "Notifying pageadapter");
+                                CustomPagerAdapter.getInstance().notifyDataSetChanged();
+                            }
+                        });
+
                         bioResources.add((String)json.get("bio"));
                         nameResources.add((String)json.get("username"));
                         Log.i("2601", "Adding "+ (String)json.get("username"));
+
                         CustomPagerAdapter.getInstance().notifyDataSetChanged();
+ 
 
                     }
 
 
 
-                    CustomPagerAdapter.getInstance().notifyDataSetChanged();
+                    TabbedActivity.getInstance().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            CustomPagerAdapter.getInstance().notifyDataSetChanged();
+                        }
+                    });
                 }
                 catch(Exception ex){
                     ex.printStackTrace();
