@@ -526,13 +526,6 @@ public class TabbedActivity extends AppCompatActivity implements
 
     public static class ProfileFragment extends Fragment {
 
-        Button edit;
-        TextView bio;
-        TextView pullups;
-        TextView grade;
-        TextView age;
-        ImageButton dp;
-
 
         public ProfileFragment() {
         }
@@ -552,20 +545,22 @@ public class TabbedActivity extends AppCompatActivity implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
-
-            edit = (Button) rootView.findViewById(R.id.button);
-            bio = (TextView)rootView.findViewById(R.id.bio);
-            pullups = (TextView)rootView.findViewById(R.id.pullups);
-            grade = (TextView)rootView.findViewById(R.id.grade);
-            age = (TextView)rootView.findViewById(R.id.age);
-            dp = (ImageButton)rootView.findViewById(R.id.imageButton);
-
             Intent intent = TabbedActivity.getInstance().getIntent();
             String profileString = intent.getStringExtra("profile");
-            Log.i("COMP 2601", "profile string:" + profileString);
+
+
+            Button edit = (Button) rootView.findViewById(R.id.profileButton);
+            TextView bio = (TextView)rootView.findViewById(R.id.profileBio);
+            TextView pullups = (TextView)rootView.findViewById(R.id.profilePullups);
+            TextView grade = (TextView)rootView.findViewById(R.id.profileGrade);
+            TextView age = (TextView)rootView.findViewById(R.id.profileAge);
+            ImageButton dp = (ImageButton)rootView.findViewById(R.id.profileImageButton);
+
             try{
+
                 JSONObject profileObject = new JSONObject(profileString);
                 bio.setText(profileObject.get("bio").toString());
+
                 pullups.setText(profileObject.get("maxPullups").toString());
                 grade.setText(profileObject.get("maxGrade").toString());
                 age.setText(profileObject.get("age").toString());
