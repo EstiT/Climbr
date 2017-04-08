@@ -463,6 +463,7 @@ public class TabbedActivity extends AppCompatActivity implements
         map.put("recipient", recipient);
         map.put("message",msg);
         LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
+        ConnectFragment.instance.msgText.setText("");
     }
 
     public static class ProfileFragment extends Fragment {
