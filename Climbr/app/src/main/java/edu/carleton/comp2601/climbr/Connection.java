@@ -139,7 +139,7 @@ public class Connection {
 
 
                     JSONArray obj = new JSONArray(profiles);
-                    Log.i("2601", obj.toString());
+                    //Log.i("2601", obj.toString());
                     //Log.i("2601", (String)obj.get("bio"));
 
                     for(int i=0;i<obj.length();i++){
