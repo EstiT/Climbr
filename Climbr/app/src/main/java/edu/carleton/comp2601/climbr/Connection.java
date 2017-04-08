@@ -120,7 +120,9 @@ public class Connection {
                         public void run() {
                             Toast t = Toast.makeText(LoginActivity.getInstance().getApplicationContext(), error, Toast.LENGTH_LONG);
                             t.show();
-                            LoginActivity.getInstance().mPasswordView.setText("");
+                            //reload login activity
+                            Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), LoginActivity.class);
+                            LoginActivity.getInstance().startActivity(i);
                         }
                     });
                 }

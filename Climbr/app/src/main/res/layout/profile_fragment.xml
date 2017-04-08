@@ -26,11 +26,10 @@
             android:text="Edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/profileImage"
-            android:id="@+id/profileButton" />
-
+            android:layout_toRightOf="@id/profileImage"/>
         <TextView
             android:text="Bio:"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/profileImage"
@@ -40,49 +39,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_toRightOf="@id/profileTextView4"
+            android:layout_below="@id/profileTextView4"
+            android:inputType="none"
             android:id="@+id/profileBio" />
 
         <TextView
             android:text="Max Pullups:"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileTextView4"
+            android:layout_below="@id/profileBio"
             android:id="@+id/profileTextView5" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_toRightOf="@id/profileTextView5"
+            android:layout_below="@id/profileTextView5"
+            android:inputType="none"
             android:id="@+id/profilePullups" />
 
         <TextView
             android:text="Max climbing grade:"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileTextView5"
+            android:layout_below="@id/profilePullups"
             android:id="@+id/profileTextView6" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_toRightOf="@id/profileTextView6"
+            android:layout_below="@id/profileTextView6"
+            android:inputType="none"
             android:id="@+id/profileGrade" />
 
         <TextView
             android:text="Age:"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileTextView6"
+            android:layout_below="@id/profileGrade"
             android:id="@+id/profileTextView7" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
-            android:layout_toRightOf="@id/profileTextView7"
+            android:layout_below="@id/profileTextView7"
+            android:inputType="none"
             android:id="@+id/profileAge" />
 
 
