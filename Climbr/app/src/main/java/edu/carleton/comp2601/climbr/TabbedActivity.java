@@ -505,7 +505,12 @@ public class TabbedActivity extends AppCompatActivity implements
     }
 
     public void msgTextClicked(View v){
-        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),R.drawable.ic_chat_white, null));
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),R.drawable.ic_chat_white, null));
+            }
+        });
 
     }
 
