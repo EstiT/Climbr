@@ -391,6 +391,7 @@ public class TabbedActivity extends AppCompatActivity implements
         public void onResume() {
             super.onResume();
             mMapView.onResume();
+
         }
 
         @Override
@@ -537,12 +538,10 @@ public class TabbedActivity extends AppCompatActivity implements
 
 
     }
-
     public void sendClicked(View v){
         Log.i("2601","Send clicked");
         sendMessage(ConnectFragment.getInstance().getMessageText());
     }
-
     public void msgTextClicked(View v){
         runOnUiThread(new Runnable() {
             @Override
@@ -552,7 +551,6 @@ public class TabbedActivity extends AppCompatActivity implements
         });
 
     }
-
     public void sendMessage(final String msg){
         //send message request
         HashMap<String, Serializable> map = new HashMap<String, Serializable>();
@@ -766,7 +764,6 @@ public class TabbedActivity extends AppCompatActivity implements
             }
         }
     }
-
     public void nextClicked(View v){
         Routine r = MyTrainerFragment.getInstance().routines.get(MyTrainerFragment.getInstance().spinner.getSelectedItem().toString());
         if(MyTrainerFragment.getInstance().currentStep == r.steps.size()){
