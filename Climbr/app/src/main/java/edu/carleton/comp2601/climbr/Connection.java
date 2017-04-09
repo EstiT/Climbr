@@ -340,6 +340,7 @@ public class Connection {
                 try {
                     //add the sender to every message
                     data.put("sender", user);
+                    data.put("username", user);
 
                     JSONObject json = new JSONObject((Map)data);
                     //json.put("data", data);
