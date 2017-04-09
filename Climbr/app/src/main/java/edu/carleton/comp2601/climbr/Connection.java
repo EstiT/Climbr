@@ -242,7 +242,7 @@ public class Connection {
                     if(err.equals("none")) {
                         final String msg = (String) e.get("message");
                         final String sender = (String) e.get("sender");
-                        Log.i("2601", "sender: "+sender+" musername: " +TabbedActivity.myUsername);
+                        //Log.i("2601", "sender: "+sender+" musername: " +TabbedActivity.myUsername);
 
                         TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override

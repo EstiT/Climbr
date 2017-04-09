@@ -29,6 +29,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -482,6 +483,29 @@ public class TabbedActivity extends AppCompatActivity implements
 
             messages = (TextView) rootView.findViewById(R.id.messages);
             msgText = (EditText) rootView.findViewById(R.id.msgText);
+
+            msgText.setOnKeyListener(new View.OnKeyListener()
+            {
+                public boolean onKey(View v, int keyCode, KeyEvent event)
+                {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN)
+                    {
+                        Log.i("2601","key down");
+                        switch (keyCode)
+                        {
+                            case KeyEvent.KEYCODE_DPAD_CENTER:
+                            case KeyEvent.KEYCODE_ENTER:
+                                Log.i("2601","enter");
+                                TabbedActivity.getInstance().sendClicked(v);
+                                return true;
+                            default:
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
+
 
             return rootView;
         }
