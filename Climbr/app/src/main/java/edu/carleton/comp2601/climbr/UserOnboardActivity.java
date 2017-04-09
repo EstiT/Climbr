@@ -154,9 +154,11 @@ public class UserOnboardActivity extends AppCompatActivity {
 //        Log.i("2601", "photoURI "+photoURI);
 //        dp.setImageURI(photoURI);
 
-        //dp.setImageURI(pURI);
 
-        /*InputStream imageStream = null;
+        dp.setImageURI(pURI);
+
+        /*
+        InputStream imageStream = null;
         try {
             imageStream = getContentResolver().openInputStream(
                     pURI);

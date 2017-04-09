@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -106,6 +107,8 @@ public class TabbedActivity extends AppCompatActivity implements
     public static JSONObject data;
     static String myUsername;
     static String recipient= "";
+
+    public static HashMap<String,Boolean> gyms = new HashMap<String, Boolean>();
 
     TabLayout tabLayout;
 
@@ -260,6 +263,7 @@ public class TabbedActivity extends AppCompatActivity implements
                         KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
                         layer.addLayerToMap();
 
+                        /*
                         for (KmlPlacemark p : layer.getPlacemarks()) {
                             Log.i("2601", "Placemark:  "+ p.toString());
                         }
@@ -271,6 +275,25 @@ public class TabbedActivity extends AppCompatActivity implements
                                     LatLng pt = (LatLng) p.getGeometry().getGeometryObject();
                                     markers.add(mMap.addMarker(new MarkerOptions().position(pt)
                                             .title(name).snippet("Information for: " + name)));
+                                }
+                            }
+                        }*/
+
+                        BitmapDescriptor b = BitmapDescriptorFactory.fromResource(R.drawable.climbericon);
+                        for (KmlContainer c : layer.getContainers()) {
+                            for (KmlContainer c1 : c.getContainers()) {
+                                for (KmlPlacemark p : c1.getPlacemarks()) {
+                                    //Log.i(this.getClass().getName(), p.toString());
+                                    String name = p.getProperty("name");
+                                    LatLng pt = (LatLng) p.getGeometry().getGeometryObject();
+                                    if(!gyms.containsKey(name)){
+                                        gyms.put(name,false);
+                                        markers.add(mMap.addMarker(new MarkerOptions().position(pt)
+                                                .title(name)
+                                                .snippet("Tap to add to favourites")
+                                                .icon(b)));
+                                    }
+
                                 }
                             }
                         }
@@ -312,6 +335,7 @@ public class TabbedActivity extends AppCompatActivity implements
                     }
 
                     googleMap.setOnMarkerClickListener(TabbedActivity.getInstance());
+                    googleMap.setOnInfoWindowClickListener(TabbedActivity.getInstance());
                     googleMap.setOnInfoWindowClickListener(TabbedActivity.getInstance());
                     googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                     CameraUpdate center = CameraUpdateFactory.newLatLng(getLocation());
@@ -682,7 +706,23 @@ public class TabbedActivity extends AppCompatActivity implements
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        marker.hideInfoWindow();
+        //marker.hideInfoWindow();
+        if(gyms.get(marker.getTitle())){
+            //is a favourite
+            //remove from favourites
+            BitmapDescriptor b = BitmapDescriptorFactory.fromResource(R.drawable.climbericon);
+            marker.setIcon(b);
+            marker.setSnippet("Tap to add to favourites");
+            gyms.put(marker.getTitle(),false);
+        }else {
+
+            //Add to favourites
+            BitmapDescriptor b = BitmapDescriptorFactory.fromResource(R.drawable.climbericongold);
+            marker.setIcon(b);
+            marker.setSnippet("Tap to remove from favourites");
+            gyms.put(marker.getTitle(),true);
+
+        }
     }
 
 
