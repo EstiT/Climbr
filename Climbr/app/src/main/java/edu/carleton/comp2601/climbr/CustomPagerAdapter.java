@@ -65,11 +65,6 @@ public class CustomPagerAdapter extends PagerAdapter {
         name = (TextView)itemView.findViewById(R.id.name);
         final int pos = position;
 
-        //Setting image
-        //imageView.setImageResource(TabbedActivity.FindBelayerFragment.mResources[position]);//TODO
-//        final String pureBase64Encoded = TabbedActivity.FindBelayerFragment.mResources.get(position);
-//        final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
-//        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
         File file = TabbedActivity.FindBelayerFragment.mResources.get(position);
         try {
@@ -88,11 +83,11 @@ public class CustomPagerAdapter extends PagerAdapter {
             Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
             //Log.i("2601 ", "setting image: " + decodedBitmap);
             imageView.setImageBitmap(decodedBitmap);
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
 
-        //imageView.setImageBitmap(TabbedActivity.FindBelayerFragment.mResources.get(position));
 
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -101,7 +96,7 @@ public class CustomPagerAdapter extends PagerAdapter {
                 TabbedActivity.recipient = TabbedActivity.FindBelayerFragment.nameResources.get(pos);
                 TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+ TabbedActivity.recipient);
                 //Log.i("2601", "name "+ (String)name.getText() + " \nnameresource" + TabbedActivity.FindBelayerFragment.nameResources[pos]);
-                TabbedActivity.getInstance().tabLayout.getTabAt(2).select();
+                TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).select();
                 return true;
             }
         });
