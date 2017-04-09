@@ -21,9 +21,13 @@ import android.widget.ImageButton;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -40,8 +44,6 @@ public class UserOnboardActivity extends AppCompatActivity {
     EditText bio;
     EditText pullups;
     EditText grade;
-    EditText name;
-    EditText username;
     EditText age;
     ImageButton dp;
     Button button;
@@ -60,14 +62,46 @@ public class UserOnboardActivity extends AppCompatActivity {
         dp = (ImageButton)findViewById(R.id.imageButton);
         button = (Button)findViewById(R.id.button);
 
+        bio.setText("");
+        pullups.setText("");
+        grade.setText("");
+        age.setText("");
+        bio.setText("");
+
         final Intent intent = getIntent();
-        if(intent.hasExtra("email")){
-            final String email = intent.getStringExtra("email").toString();
-            final String username = email.split("@")[0];
-            Log.i("COMP2601", "email: "+email + " username:" + username);
-        }
 
         instance = this;
+
+        if(LoginActivity.getInstance().c.hasSetInfo){
+            //set all of the text fields
+            bio.setText(LoginActivity.getInstance().c.bio);
+            pullups.setText(LoginActivity.getInstance().c.maxPullups);
+            grade.setText(LoginActivity.getInstance().c.maxGrade);
+            age.setText(LoginActivity.getInstance().c.age);
+            bio.setText(LoginActivity.getInstance().c.bio);
+
+            File file = LoginActivity.getInstance().c.myImage;
+            try {
+                FileReader fr = new FileReader(file.getAbsoluteFile());
+                BufferedReader br = new BufferedReader(fr);
+                StringBuilder text = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                String pureBase64Encoded = text.toString();
+                //Log.i("2601", "Read from file: " + pureBase64Encoded);
+                br.close();
+                final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                //Log.i("2601 ", "setting image: " + decodedBitmap);
+                dp.setImageBitmap(decodedBitmap);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 
 
         button.setOnClickListener(new View.OnClickListener(){
@@ -76,20 +110,14 @@ public class UserOnboardActivity extends AppCompatActivity {
                 HashMap<String, Serializable> map = new HashMap<String, Serializable>();
                 if(intent.hasExtra("email")) {
                     map.put("email", intent.getStringExtra("email").toString());
-                    map.put("username", (intent.getStringExtra("email").toString()).split("@")[0]);
-
-                }
-                if(intent.hasExtra("username")) {
-                    map.put("username", (intent.getStringExtra("username").toString()));
                 }
 
                 if(intent.hasExtra("password")){
                     map.put("password",intent.getStringExtra("password").toString());
-
                 }
+                map.put("username", TabbedActivity.getInstance().myUsername);
                 map.put("bio",bio.getText().toString());
                 //for en/decoding http://mobile.cs.fsu.edu/converting-images-to-json-objects/
-
 
                 Bitmap bitmap = ((BitmapDrawable)dp.getDrawable()).getBitmap();
 
