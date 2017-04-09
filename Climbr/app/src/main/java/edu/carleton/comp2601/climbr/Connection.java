@@ -36,9 +36,13 @@ public class Connection {
     private Socket s;
     private String host;
     private int port;
-    private String user;
-    private String sender;
-    private boolean play;
+    static String user;
+    static String bio;
+    static File myImage;
+    static String maxPullups;
+    static String age;
+    static String maxGrade;
+    static boolean hasSetInfo;
     Reactor r;
     ThreadWithReactor thread;
     EventStreamImpl stream;
@@ -49,6 +53,7 @@ public class Connection {
         host = h;
         port = p;
         user = userid;
+        hasSetInfo = false;
         init();
         Log.i("2601", "trying to create socket");
         try {
@@ -108,12 +113,22 @@ public class Connection {
                     else if (status.equals("returning")){
                         //bring them into app
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), TabbedActivity.class);
-                        //send the users information with them
-                        //i.putExtra("profile", e.get("profile"));
+                        try{
+                            //save user fields
+                            JSONObject profileObject = new JSONObject(e.get("profile").toString());
+                            bio = profileObject.get("bio").toString();
+                            //img = profileObject.get("img").toString();
+                            maxPullups = profileObject.get("maxPullups").toString();
+                            maxGrade = profileObject.get("maxGrade").toString();
+                            age = profileObject.get("age").toString();
+                        }
+                        catch(Exception ex){
+                            ex.printStackTrace();
+                        }
                         i.putExtra("username", LoginActivity.getInstance().mEmailView.getText().toString().split("@")[0]);
+                        hasSetInfo = true;
                         LoginActivity.getInstance().startActivity(i);
                     }
-
                 }
                 else{
                     //there is an error, display in toast and clear password field
@@ -161,8 +176,6 @@ public class Connection {
                         TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
-
                                 try {
                                     if(!json.get("username").equals(TabbedActivity.getInstance().myUsername)){
                                         bioResources.add((String) json.get("bio"));
@@ -170,20 +183,23 @@ public class Connection {
                                         Log.i("2601", "Adding " + (String) json.get("username"));
                                         mResources.add(file);
                                     }
+                                    else{
+                                        myImage = file;
+                                        bio = json.get("bio").toString();
+                                        maxPullups = json.get("maxPullups").toString();
+                                        maxGrade = json.get("maxGrade").toString();
+                                        age = json.get("age").toString();
+                                    }
                                 }catch(Exception ex){
                                     ex.printStackTrace();
                                 }
-
 
                                 Log.i("2601", "Notifying pageadapter");
                                 CustomPagerAdapter.getInstance().notifyDataSetChanged();
                             }
                         });
 
-
-
-                        CustomPagerAdapter.getInstance().notifyDataSetChanged();
-
+                        //CustomPagerAdapter.getInstance().notifyDataSetChanged();
 
                     }
 
@@ -213,7 +229,20 @@ public class Connection {
                     if(status.equals("success")){
                         //redirect to tabbed activity, send user name as extra
                         Intent i = new Intent(UserOnboardActivity.getInstance().getApplicationContext(), TabbedActivity.class);
-                        i.putExtra("profile", e.get("profile"));
+                        i.putExtra("from","UserOnboard");
+//                        Log.i("COMP 2601", "Profile: "+ e.get("profile").toString());
+                        try{
+                            //save user fields
+                            JSONObject profileObject = new JSONObject(e.get("profile").toString());
+                            bio = profileObject.get("bio").toString();
+                            maxPullups = profileObject.get("maxPullups").toString();
+                            maxGrade = profileObject.get("maxGrade").toString();
+                            age = profileObject.get("age").toString();
+                        }
+                        catch(Exception ex){
+                            ex.printStackTrace();
+                        }
+                        hasSetInfo = true;
                         UserOnboardActivity.getInstance().startActivity(i);
                     }
                     else if (status.equals("failure")){
@@ -260,14 +289,12 @@ public class Connection {
                             }
                         });
 
-
                         Log.i("2601", "msg: " + msg);
 
                     }else{
                         //toast TODO
                         Log.i("2601", "Error in messaging:  " + err);
                     }
-
                 }
                 catch(Exception ex){
                     ex.printStackTrace();
@@ -275,6 +302,27 @@ public class Connection {
             }
         });
 
+        r.register("GET_PROFILE_RESPONSE", new EventHandler() {
+            @Override
+            public void handleEvent(Event e) {
+                Log.i("Connection", "Handling GET_PROFILE_RESPONSE");
+                Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
+                i.putExtra("username", e.get("username"));
+                try{
+                    //save user fields
+                    JSONObject profileObject = new JSONObject(e.get("profile").toString());
+                    bio = profileObject.get("bio").toString();
+                    maxPullups = profileObject.get("maxPullups").toString();
+                    maxGrade = profileObject.get("maxGrade").toString();
+                    age = profileObject.get("age").toString();
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                }
+
+                LoginActivity.getInstance().startActivity(i);
+            }
+        });
 
         r.register("DISCONNECT_RESPONSE", new EventHandler() {
             @Override
@@ -283,8 +331,6 @@ public class Connection {
 
             }
         });
-
-
     }
 
     public void sendRequest(final String type, final HashMap<String ,Serializable> data){
@@ -310,7 +356,6 @@ public class Connection {
             }
         });
         t.start();
-
     }
 
 

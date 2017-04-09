@@ -76,7 +76,9 @@ import com.google.maps.android.data.kml.KmlPlacemark;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -151,6 +153,11 @@ public class TabbedActivity extends AppCompatActivity implements
         tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(),R.mipmap.ic_alarm_on_white_48dp, null));
         tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.climber, null));
 
+        if(intent.hasExtra("from")){
+            if(intent.getStringExtra("from").equals("UserOnboard")){
+                tabLayout.getTabAt(TabbedActivity.getInstance().PROFILE).select();
+            }
+        }
 
     }
 
@@ -170,7 +177,7 @@ public class TabbedActivity extends AppCompatActivity implements
         super.onDestroy();
     }
 
-    private Bitmap getBitmapFromString(String jsonString) {
+    public Bitmap getBitmapFromString(String jsonString) {
 /*
 * This Function converts the String back to Bitmap
 * */
@@ -577,7 +584,6 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
             Intent intent = TabbedActivity.getInstance().getIntent();
-            String profileString = intent.getStringExtra("profile");
 
             Button edit = (Button) rootView.findViewById(R.id.profileEditButton);
             TextView bio = (TextView)rootView.findViewById(R.id.profileBio);
@@ -586,24 +592,43 @@ public class TabbedActivity extends AppCompatActivity implements
             TextView age = (TextView)rootView.findViewById(R.id.profileAge);
             ImageView dp = (ImageView)rootView.findViewById(R.id.profileImage);
 
-            try{
-                JSONObject profileObject = new JSONObject(profileString);
-                bio.setText(profileObject.get("bio").toString());
-                pullups.setText(profileObject.get("maxPullups").toString());
-                grade.setText(profileObject.get("maxGrade").toString());
-                age.setText(profileObject.get("age").toString());
-                dp.setImageBitmap(TabbedActivity.getInstance().getBitmapFromString(profileObject.get("img").toString()));
-            }
-            catch(Exception e){
-                e.printStackTrace();
+            if(LoginActivity.getInstance().c.bio != null){
+                //set all of the text fields
+                bio.setText(LoginActivity.getInstance().c.bio);
+                pullups.setText(LoginActivity.getInstance().c.maxPullups);
+                grade.setText(LoginActivity.getInstance().c.maxGrade);
+                age.setText(LoginActivity.getInstance().c.age);
+                bio.setText(LoginActivity.getInstance().c.bio);
+
+                File file = LoginActivity.getInstance().c.myImage;
+                try {
+                    FileReader fr = new FileReader(file.getAbsoluteFile());
+                    BufferedReader br = new BufferedReader(fr);
+                    StringBuilder text = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        text.append(line);
+                        text.append('\n');
+                    }
+                    String pureBase64Encoded = text.toString();
+                    //Log.i("2601", "Read from file: " + pureBase64Encoded);
+                    br.close();
+                    final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+                    Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                    //Log.i("2601 ", "setting image: " + decodedBitmap);
+                    dp.setImageBitmap(decodedBitmap);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
             }
 
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
-                    i.putExtra("username", myUsername);
-                    LoginActivity.getInstance().startActivity(i);
+                    HashMap<String, Serializable> map = new HashMap<String, Serializable>();
+                    map.put("username", myUsername);
+                    LoginActivity.getInstance().c.sendRequest("GET_PROFILE_REQUEST",map);
                 }
             });
 
