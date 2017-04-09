@@ -241,12 +241,19 @@ public class Connection {
 
                     if(err.equals("none")) {
                         String msg = (String) e.get("message");
-                        String sender = (String) e.get("sender");
+                        final String sender = (String) e.get("sender");
+                        Log.i("2601", "sender: "+sender+" musername: " +TabbedActivity.myUsername);
                         if(sender != TabbedActivity.myUsername){
                             TabbedActivity.recipient = sender;
-                            TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+sender);
-                            TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).setIcon(ResourcesCompat.getDrawable(TabbedActivity.getInstance().getResources(), R.drawable.ic_chat_white_notify, null));
-                        }
+                            TabbedActivity.getInstance().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+sender);
+                                    TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).setIcon(ResourcesCompat.getDrawable(TabbedActivity.getInstance().getResources(), R.drawable.ic_chat_white_notify, null));
+
+                                }
+                            });
+                           }
                         Log.i("2601", "msg: " + msg);
                         TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
                     }else{
