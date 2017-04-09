@@ -46,12 +46,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -609,6 +614,13 @@ public class TabbedActivity extends AppCompatActivity implements
         Chronometer timer;
         boolean running;
         long time;
+        String level;
+        public static MyTrainerFragment instance;
+        TextView instructions;
+        Spinner spinner;
+
+        int currentStep;
+        HashMap<String, Routine> routines;
 
         public MyTrainerFragment() {
         }
@@ -618,16 +630,77 @@ public class TabbedActivity extends AppCompatActivity implements
             return fragment;
         }
 
+        public static MyTrainerFragment getInstance(){
+            return instance;
+        }
+
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
         }
 
+        public void addRoutines(){
+            ArrayList<Step> steps = new ArrayList<Step>();
+            steps.add(new Step("Do 5 pullups.", false));
+            steps.add(new Step("Plank for 20 seconds", true));
+            steps.add(new Step("10 situps", false));
+            steps.add(new Step("Hang for 10 seconds", true));
+
+            Routine r1 = new Routine(steps);
+            routines.put("Beginner", r1);
+
+            steps.clear();
+            steps.add(new Step("Do 10 pullups.", false));
+            steps.add(new Step("Plank for 1 minute", true));
+            steps.add(new Step("30 situps", false));
+            steps.add(new Step("Hang for 20 seconds", true));
+
+            Routine r2 = new Routine(steps);
+            routines.put("Intermediate", r2);
+
+            steps.clear();
+            steps.add(new Step("Do 20 pullups.", false));
+            steps.add(new Step("Plank for 5 minutes", true));
+            steps.add(new Step("50 situps", false));
+            steps.add(new Step("Hang for 45 seconds", true));
+
+            Routine r3 = new Routine(steps);
+            routines.put("Advanced", r3);
+
+
+
+
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            instance = this;
+            routines = new HashMap<String, Routine>();
+            addRoutines();
+
+            currentStep = 0;
+
+
             View rootView = inflater.inflate(R.layout.my_trainer_fragment, container, false);
 
+            spinner = (Spinner) rootView.findViewById(R.id.dropDown);
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(TabbedActivity.getInstance(),
+                    R.array.difficulties, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            spinner.setAdapter(adapter);
+
+            instructions = (TextView) rootView.findViewById(R.id.instructions);
+
+            if(spinner.isSelected()){
+                level = spinner.getSelectedItem().toString();
+            }else {
+                level = "Beginner";
+            }
             timer = (Chronometer)rootView.findViewById(R.id.chronometer);
             timer.setBase(SystemClock.elapsedRealtime());
             time = 0;
@@ -657,6 +730,28 @@ public class TabbedActivity extends AppCompatActivity implements
 
             return rootView;
         }
+
+        public void updateView(Step s){
+            instructions.setText(s.instruction);
+            if(s.timed){
+                timer.setVisibility(View.VISIBLE);
+            }else{
+                timer.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    public void nextClicked(View v){
+        Routine r = MyTrainerFragment.getInstance().routines.get(MyTrainerFragment.getInstance().spinner.getSelectedItem().toString());
+        if(MyTrainerFragment.getInstance().currentStep == r.steps.size()){
+            Toast t = Toast.makeText(this, "You finished this training routine!", Toast.LENGTH_LONG);
+            t.show();
+            MyTrainerFragment.getInstance().currentStep = 0;
+        }
+        Step s = r.steps.get(MyTrainerFragment.getInstance().currentStep);
+        MyTrainerFragment.getInstance().updateView(s);
+        MyTrainerFragment.getInstance().currentStep++;
+
     }
 
 
