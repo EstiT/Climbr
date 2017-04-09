@@ -240,7 +240,7 @@ public class Connection {
                     String err = (String) e.get("error");
 
                     if(err.equals("none")) {
-                        String msg = (String) e.get("message");
+                        final String msg = (String) e.get("message");
                         final String sender = (String) e.get("sender");
                         Log.i("2601", "sender: "+sender+" musername: " +TabbedActivity.myUsername);
                         if(!sender.equals(TabbedActivity.myUsername)){
@@ -251,12 +251,12 @@ public class Connection {
                                     TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).select();
                                     TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+sender);
                                     TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).setIcon(ResourcesCompat.getDrawable(TabbedActivity.getInstance().getResources(), R.drawable.ic_chat_white_notify, null));
-
+                                    TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
                                 }
                             });
                            }
                         Log.i("2601", "msg: " + msg);
-                        TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
+
                     }else{
                         //toast TODO
                         Log.i("2601", "Error in messaging:  " + err);
