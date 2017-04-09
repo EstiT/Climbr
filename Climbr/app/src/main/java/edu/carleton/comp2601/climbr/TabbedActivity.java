@@ -484,6 +484,7 @@ public class TabbedActivity extends AppCompatActivity implements
             messages = (TextView) rootView.findViewById(R.id.messages);
             msgText = (EditText) rootView.findViewById(R.id.msgText);
 
+            /*
             msgText.setOnKeyListener(new View.OnKeyListener()
             {
                 public boolean onKey(View v, int keyCode, KeyEvent event)
@@ -505,6 +506,7 @@ public class TabbedActivity extends AppCompatActivity implements
                     return false;
                 }
             });
+            */
 
 
             return rootView;
