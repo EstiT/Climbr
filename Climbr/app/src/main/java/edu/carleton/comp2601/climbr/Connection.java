@@ -161,12 +161,15 @@ public class Connection {
                         TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mResources.add(file);
+
 
                                 try {
-                                    bioResources.add((String) json.get("bio"));
-                                    nameResources.add((String) json.get("username"));
-                                    Log.i("2601", "Adding " + (String) json.get("username"));
+                                    if(!json.get("username").equals(TabbedActivity.getInstance().myUsername)){
+                                        bioResources.add((String) json.get("bio"));
+                                        nameResources.add((String) json.get("username"));
+                                        Log.i("2601", "Adding " + (String) json.get("username"));
+                                        mResources.add(file);
+                                    }
                                 }catch(Exception ex){
                                     ex.printStackTrace();
                                 }
