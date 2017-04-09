@@ -243,11 +243,12 @@ public class Connection {
                         String msg = (String) e.get("message");
                         final String sender = (String) e.get("sender");
                         Log.i("2601", "sender: "+sender+" musername: " +TabbedActivity.myUsername);
-                        if(sender.equals(TabbedActivity.myUsername)){
+                        if(!sender.equals(TabbedActivity.myUsername)){
                             TabbedActivity.recipient = sender;
                             TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).select();
                                     TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+sender);
                                     TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).setIcon(ResourcesCompat.getDrawable(TabbedActivity.getInstance().getResources(), R.drawable.ic_chat_white_notify, null));
 
