@@ -98,11 +98,11 @@ public class TabbedActivity extends AppCompatActivity implements
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private final int NEARBY_GYMS = 0;
-    private final int FIND_BELAYER = 1;
-    private final int CONNECT = 2;
-    private final int MY_TRAINER = 3;
-    private final int PROFILE = 4;
+    public final int NEARBY_GYMS = 0;
+    public final int FIND_BELAYER = 1;
+    public final int CONNECT = 2;
+    public final int MY_TRAINER = 3;
+    public final int PROFILE = 4;
 
     public static JSONObject data;
     static String myUsername;
@@ -141,7 +141,7 @@ public class TabbedActivity extends AppCompatActivity implements
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(NEARBY_GYMS).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_dialog_map, null));
         tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_group_white_48dp , null));
-        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),android.R.drawable.stat_notify_chat, null));
+        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),R.drawable.ic_chat_white, null));
         tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(),R.mipmap.ic_alarm_on_white_48dp, null));
         tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.climber, null));
 
@@ -502,6 +502,11 @@ public class TabbedActivity extends AppCompatActivity implements
     public void sendClicked(View v){
         Log.i("2601","Send clicked");
         sendMessage(ConnectFragment.getInstance().getMessageText());
+    }
+
+    public void msgTextClicked(View v){
+        tabLayout.getTabAt(CONNECT).setIcon(ResourcesCompat.getDrawable(getResources(),R.drawable.ic_chat_white, null));
+
     }
 
     public void sendMessage(final String msg){

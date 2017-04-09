@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
@@ -239,6 +241,12 @@ public class Connection {
 
                     if(err.equals("none")) {
                         String msg = (String) e.get("message");
+                        String sender = (String) e.get("sender");
+                        if(sender != TabbedActivity.myUsername){
+                            TabbedActivity.recipient = sender;
+                            TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+sender);
+                            TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).setIcon(ResourcesCompat.getDrawable(TabbedActivity.getInstance().getResources(), R.drawable.ic_chat_white_notify, null));
+                        }
                         Log.i("2601", "msg: " + msg);
                         TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
                     }else{
