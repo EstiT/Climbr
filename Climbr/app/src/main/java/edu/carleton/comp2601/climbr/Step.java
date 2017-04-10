@@ -11,4 +11,9 @@ public class Step {
         instruction = s;
         timed = b;
     }
+
+    @Override
+    public String toString(){
+        return instruction.toString() ;
+    }
 }

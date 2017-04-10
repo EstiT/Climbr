@@ -614,6 +614,7 @@ public class TabbedActivity extends AppCompatActivity implements
         TextView instructions;
         Spinner spinner;
         int currentStep;
+        Button nextButton;
         HashMap<String, Routine> routines;
 
         public MyTrainerFragment() {
@@ -645,22 +646,22 @@ public class TabbedActivity extends AppCompatActivity implements
             Routine r1 = new Routine(steps);
             routines.put("Beginner", r1);
 
-            steps.clear();
-            steps.add(new Step("Do 10 pullups.", false));
-            steps.add(new Step("Plank for 1 minute", true));
-            steps.add(new Step("30 situps", false));
-            steps.add(new Step("Hang for 20 seconds", true));
+            ArrayList<Step> steps2 = new ArrayList<Step>();
+            steps2.add(new Step("Do 10 pullups.", false));
+            steps2.add(new Step("Plank for 1 minute", true));
+            steps2.add(new Step("30 situps", false));
+            steps2.add(new Step("Hang for 20 seconds", true));
 
-            Routine r2 = new Routine(steps);
+            Routine r2 = new Routine(steps2);
             routines.put("Intermediate", r2);
 
-            steps.clear();
-            steps.add(new Step("Do 20 pullups.", false));
-            steps.add(new Step("Plank for 5 minutes", true));
-            steps.add(new Step("50 situps", false));
-            steps.add(new Step("Hang for 45 seconds", true));
+            ArrayList<Step> steps3 = new ArrayList<Step>();
+            steps3.add(new Step("Do 20 pullups.", false));
+            steps3.add(new Step("Plank for 5 minutes", true));
+            steps3.add(new Step("50 situps", false));
+            steps3.add(new Step("Hang for 45 seconds", true));
 
-            Routine r3 = new Routine(steps);
+            Routine r3 = new Routine(steps3);
             routines.put("Advanced", r3);
 
         }
@@ -686,6 +687,7 @@ public class TabbedActivity extends AppCompatActivity implements
             spinner.setAdapter(adapter);
 
             instructions = (TextView) rootView.findViewById(R.id.instructions);
+            nextButton = (Button) rootView.findViewById(R.id.nextButton);
 
             //set the spinner text, default is beginner
             if(spinner.isSelected()){
@@ -743,15 +745,33 @@ public class TabbedActivity extends AppCompatActivity implements
     public void nextClicked(View v){
         Routine r = MyTrainerFragment.getInstance().routines.get(MyTrainerFragment.getInstance().spinner.getSelectedItem().toString());
 
+        if(MyTrainerFragment.getInstance().nextButton.getText().equals("Done")){
+            MyTrainerFragment.getInstance().nextButton.setText("Start");
+            MyTrainerFragment.getInstance().instructions.setText("");
+        }
         //show next or notify done routine
+
         if(MyTrainerFragment.getInstance().currentStep == r.steps.size()){
-            Toast t = Toast.makeText(this, "You finished this training routine!", Toast.LENGTH_LONG);
+            Toast t = Toast.makeText(this, "You finished the " +MyTrainerFragment.getInstance().spinner.getSelectedItem().toString()+ " training routine!", Toast.LENGTH_LONG);
             t.show();
             MyTrainerFragment.getInstance().currentStep = 0;
+            MyTrainerFragment.getInstance().instructions.setText("");
+            MyTrainerFragment.getInstance().timer.setVisibility(View.VISIBLE);
+
         }
-        Step s = r.steps.get(MyTrainerFragment.getInstance().currentStep);
-        MyTrainerFragment.getInstance().updateView(s);
-        MyTrainerFragment.getInstance().currentStep++;
+        else{
+            if(MyTrainerFragment.getInstance().currentStep == r.steps.size()-1) {
+                MyTrainerFragment.getInstance().nextButton.setText("Done");
+            }
+            else{
+                MyTrainerFragment.getInstance().nextButton.setText("Next");
+            }
+            Step s = r.steps.get(MyTrainerFragment.getInstance().currentStep);
+            Log.i("COMP 2601", "step: " + s.instruction);
+            MyTrainerFragment.getInstance().updateView(s);
+            MyTrainerFragment.getInstance().currentStep++;
+        }
+
     }
 
 

@@ -12,4 +12,9 @@ public class Routine {
     public Routine(ArrayList<Step> s){
         steps = s;
     }
+
+    @Override
+    public String toString(){
+        return steps.toString();
+    }
 }
