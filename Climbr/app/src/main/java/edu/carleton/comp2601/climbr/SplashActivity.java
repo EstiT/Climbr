@@ -2,10 +2,8 @@ package edu.carleton.comp2601.climbr;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.VideoView;
 
 public class SplashActivity extends AppCompatActivity {
@@ -15,6 +13,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        //display logo animation on splash page
         VideoView logo = (VideoView)findViewById(R.id.logo);
         String path= "android.resource://edu.carleton.comp2601.climbr/"+R.raw.anim_slow;
         logo.setVideoPath(path);
@@ -28,14 +27,14 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-
                             sleep(1000);
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
                             e.printStackTrace();
-                        } finally {
-
-                            Intent i = new Intent(SplashActivity.this,
-                                    LoginActivity.class);
+                        }
+                        finally {
+                            //bring the user into the app
+                            Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(i);
                             finish();
                         }

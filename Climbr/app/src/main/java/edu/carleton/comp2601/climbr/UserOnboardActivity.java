@@ -55,6 +55,7 @@ public class UserOnboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_onboard);
+
         bio = (EditText)findViewById(R.id.bio);
         pullups = (EditText)findViewById(R.id.pullups);
         grade = (EditText)findViewById(R.id.grade);
@@ -62,6 +63,7 @@ public class UserOnboardActivity extends AppCompatActivity {
         dp = (ImageButton)findViewById(R.id.imageButton);
         button = (Button)findViewById(R.id.button);
 
+        //reset textfields
         bio.setText("");
         pullups.setText("");
         grade.setText("");
@@ -69,7 +71,6 @@ public class UserOnboardActivity extends AppCompatActivity {
         bio.setText("");
 
         final Intent intent = getIntent();
-
         instance = this;
 
         if(LoginActivity.getInstance().c.hasSetInfo){
@@ -80,6 +81,7 @@ public class UserOnboardActivity extends AppCompatActivity {
             age.setText(LoginActivity.getInstance().c.age);
             bio.setText(LoginActivity.getInstance().c.bio);
 
+            //read the image from the file
             File file = LoginActivity.getInstance().c.myImage;
             try {
                 FileReader fr = new FileReader(file.getAbsoluteFile());
@@ -91,11 +93,10 @@ public class UserOnboardActivity extends AppCompatActivity {
                     text.append('\n');
                 }
                 String pureBase64Encoded = text.toString();
-                //Log.i("2601", "Read from file: " + pureBase64Encoded);
                 br.close();
                 final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
                 Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                //Log.i("2601 ", "setting image: " + decodedBitmap);
+                //set the image
                 dp.setImageBitmap(decodedBitmap);
             }
             catch(Exception e){
@@ -106,7 +107,7 @@ public class UserOnboardActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-
+                //submit button, send update profile request with all of the profile fields
                 HashMap<String, Serializable> map = new HashMap<String, Serializable>();
                 if(intent.hasExtra("email")) {
                     map.put("email", intent.getStringExtra("email").toString());
@@ -128,7 +129,6 @@ public class UserOnboardActivity extends AppCompatActivity {
                 map.put("maxGrade",grade.getText().toString());
 
                 LoginActivity.getInstance().c.sendRequest("UPDATE_PROFILE",map);
-
             }
         });
 
@@ -136,8 +136,8 @@ public class UserOnboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //https://developer.android.com/training/camera/photobasics.html
+                //bring up camera if display picture is clicked
                 dispatchTakePictureIntent();
-
             }
         });
     }
@@ -145,7 +145,6 @@ public class UserOnboardActivity extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-
             requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_TAKE_PHOTO);
         }
 
@@ -169,7 +168,6 @@ public class UserOnboardActivity extends AppCompatActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 Log.i("2601", "start act for result take pic intent");
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-
             }
         }
     }
@@ -181,7 +179,6 @@ public class UserOnboardActivity extends AppCompatActivity {
 //        Uri photoURI = data.getData();
 //        Log.i("2601", "photoURI "+photoURI);
 //        dp.setImageURI(photoURI);
-
 
         dp.setImageURI(pURI);
 
@@ -202,7 +199,6 @@ public class UserOnboardActivity extends AppCompatActivity {
         Bitmap decodedBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         dp.setImageBitmap(decodedBitmap);*/
 
-
     }
 
     public String getStringFromBitmap(Bitmap bitmapPicture) {
@@ -210,6 +206,7 @@ public class UserOnboardActivity extends AppCompatActivity {
  * This functions converts Bitmap picture to a string which can be
  * JSONified.
  * */
+        //lowest quality to save space
         final int COMPRESSION_QUALITY = 0;
         String encodedImage;
         ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
@@ -231,7 +228,6 @@ public class UserOnboardActivity extends AppCompatActivity {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
 

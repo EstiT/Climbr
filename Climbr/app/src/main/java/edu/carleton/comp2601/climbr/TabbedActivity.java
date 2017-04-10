@@ -6,17 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.SystemClock;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -29,29 +24,23 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -59,31 +48,21 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.data.Feature;
 import com.google.maps.android.data.Layer;
 import com.google.maps.android.data.kml.KmlContainer;
 import com.google.maps.android.data.kml.KmlLayer;
 import com.google.maps.android.data.kml.KmlPlacemark;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
 
 
 public class TabbedActivity extends AppCompatActivity implements
@@ -130,11 +109,11 @@ public class TabbedActivity extends AppCompatActivity implements
         final Intent intent = getIntent();
         myUsername = intent.getStringExtra("username");
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-        params.setScrollFlags(0);  // clear all scroll flags
+        //clear scroll flags
+        params.setScrollFlags(0);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -145,7 +124,7 @@ public class TabbedActivity extends AppCompatActivity implements
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-
+        //set the icons for each tab
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(NEARBY_GYMS).setIcon(ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_dialog_map, null));
         tabLayout.getTabAt(FIND_BELAYER).setIcon(ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_group_white_48dp , null));
@@ -153,6 +132,7 @@ public class TabbedActivity extends AppCompatActivity implements
         tabLayout.getTabAt(MY_TRAINER).setIcon(ResourcesCompat.getDrawable(getResources(),R.mipmap.ic_alarm_on_white_48dp, null));
         tabLayout.getTabAt(PROFILE).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.climber, null));
 
+        //if the tabbed activity is loaded from the user onboard, bring them to the profile tab
         if(intent.hasExtra("from")){
             if(intent.getStringExtra("from").equals("UserOnboard")){
                 tabLayout.getTabAt(TabbedActivity.getInstance().PROFILE).select();
@@ -260,7 +240,6 @@ public class TabbedActivity extends AppCompatActivity implements
                         Log.i("MapsActivity", "Permission denied");
                         ActivityCompat.requestPermissions(TabbedActivity.getInstance(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 123);
                     }
-
                     if (ContextCompat.checkSelfPermission(TabbedActivity.getInstance().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED){
                         Log.i("MapsActivity", "Permission is granted");
@@ -268,7 +247,6 @@ public class TabbedActivity extends AppCompatActivity implements
                     }
 
                     try {
-
                         //KmlLayer layer = new KmlLayer(googleMap, R.raw.climbing_gyms, TabbedActivity.getInstance().getApplicationContext());
                         //layer.addLayerToMap();
 
@@ -293,6 +271,7 @@ public class TabbedActivity extends AppCompatActivity implements
                             }
                         }*/
 
+                        //add climber icon to display local climbing gyms
                         BitmapDescriptor b = BitmapDescriptorFactory.fromResource(R.drawable.climbericon);
                         for (KmlContainer c : layer.getContainers()) {
                             for (KmlContainer c1 : c.getContainers()) {
@@ -307,11 +286,9 @@ public class TabbedActivity extends AppCompatActivity implements
                                                 .snippet("Tap to add to favourites")
                                                 .icon(b)));
                                     }
-
                                 }
                             }
                         }
-
 
                         /*
                         Log.i("2601", "layer: " + layer.getPlacemarks().toString());
@@ -375,11 +352,11 @@ public class TabbedActivity extends AppCompatActivity implements
                     Location location = null;
                     try {
                         location = locationManager.getLastKnownLocation(provider);
-                    } catch (SecurityException e) {
+                    }
+                    catch (SecurityException e) {
                         Log.i("MapsActivity","Unable to get current location");
                         e.printStackTrace();
                     }
-
                     LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                     return newLatLng;
                 }
@@ -391,7 +368,6 @@ public class TabbedActivity extends AppCompatActivity implements
         public void onResume() {
             super.onResume();
             mMapView.onResume();
-
         }
 
         @Override
@@ -433,7 +409,6 @@ public class TabbedActivity extends AppCompatActivity implements
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
         }
 
         @Override
@@ -441,12 +416,13 @@ public class TabbedActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.find_belayer_fragment, container, false);
 
+            //set custom pager adapter as mViewPagers adapter
             mCustomPagerAdapter = new CustomPagerAdapter(TabbedActivity.getInstance());
 
             mViewPager = (ViewPager)rootView.findViewById(R.id.pager);
             mViewPager.setAdapter(mCustomPagerAdapter);
 
-            //send message request
+            //send Profiles request to populate resources for view pager
             HashMap<String, Serializable> map = new HashMap<String, Serializable>();
             LoginActivity.getInstance().c.sendRequest("PROFILES", map);
 
@@ -480,11 +456,11 @@ public class TabbedActivity extends AppCompatActivity implements
         }
 
         public void addMsg(final String m){
+            //append new message to the users messages
             TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     messages.setText(messages.getText() + "\n" + m);
-
                 }
             });
         }
@@ -493,21 +469,18 @@ public class TabbedActivity extends AppCompatActivity implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.connect_fragment, container, false);
-            title = (TextView) rootView.findViewById(R.id.title);
 
+            title = (TextView) rootView.findViewById(R.id.title);
             messages = (TextView) rootView.findViewById(R.id.messages);
             msgText = (EditText) rootView.findViewById(R.id.msgText);
 
             /*
-            msgText.setOnKeyListener(new View.OnKeyListener()
-            {
-                public boolean onKey(View v, int keyCode, KeyEvent event)
-                {
-                    if (event.getAction() == KeyEvent.ACTION_DOWN)
-                    {
+            //potentially make message send when enter is pressed
+            msgText.setOnKeyListener(new View.OnKeyListener(){
+                public boolean onKey(View v, int keyCode, KeyEvent event){
+                    if (event.getAction() == KeyEvent.ACTION_DOWN){
                         Log.i("2601","key down");
-                        switch (keyCode)
-                        {
+                        switch (keyCode){
                             case KeyEvent.KEYCODE_DPAD_CENTER:
                             case KeyEvent.KEYCODE_ENTER:
                                 Log.i("2601","enter");
@@ -522,7 +495,6 @@ public class TabbedActivity extends AppCompatActivity implements
             });
             */
 
-
             return rootView;
         }
 
@@ -535,14 +507,14 @@ public class TabbedActivity extends AppCompatActivity implements
         }
 
 
-
-
     }
     public void sendClicked(View v){
         Log.i("2601","Send clicked");
+        //send the text typed to the recipient
         sendMessage(ConnectFragment.getInstance().getMessageText());
     }
     public void msgTextClicked(View v){
+        //set the chat tab icon back to not having a notification
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -558,6 +530,7 @@ public class TabbedActivity extends AppCompatActivity implements
         map.put("recipient", recipient);
         map.put("message",msg);
         LoginActivity.getInstance().c.sendRequest("MESSAGE", map);
+        //clear the text field
         ConnectFragment.instance.msgText.setText("");
     }
 
@@ -581,7 +554,6 @@ public class TabbedActivity extends AppCompatActivity implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.profile_fragment, container, false);
-            Intent intent = TabbedActivity.getInstance().getIntent();
 
             Button edit = (Button) rootView.findViewById(R.id.profileEditButton);
             TextView bio = (TextView)rootView.findViewById(R.id.profileBio);
@@ -590,14 +562,15 @@ public class TabbedActivity extends AppCompatActivity implements
             TextView age = (TextView)rootView.findViewById(R.id.profileAge);
             ImageView dp = (ImageView)rootView.findViewById(R.id.profileImage);
 
-            if(LoginActivity.getInstance().c.bio != null){
-                //set all of the text fields
+            if(LoginActivity.getInstance().c.hasSetInfo){
+                //preset all of the text fields
                 bio.setText(LoginActivity.getInstance().c.bio);
                 pullups.setText(LoginActivity.getInstance().c.maxPullups);
                 grade.setText(LoginActivity.getInstance().c.maxGrade);
                 age.setText(LoginActivity.getInstance().c.age);
                 bio.setText(LoginActivity.getInstance().c.bio);
 
+                //set the image, get it from file
                 File file = LoginActivity.getInstance().c.myImage;
                 try {
                     FileReader fr = new FileReader(file.getAbsoluteFile());
@@ -609,11 +582,9 @@ public class TabbedActivity extends AppCompatActivity implements
                         text.append('\n');
                     }
                     String pureBase64Encoded = text.toString();
-                    //Log.i("2601", "Read from file: " + pureBase64Encoded);
                     br.close();
                     final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
                     Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                    //Log.i("2601 ", "setting image: " + decodedBitmap);
                     dp.setImageBitmap(decodedBitmap);
                 }
                 catch(Exception e){
@@ -624,12 +595,12 @@ public class TabbedActivity extends AppCompatActivity implements
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //send get profile request when edit button clicked
                     HashMap<String, Serializable> map = new HashMap<String, Serializable>();
                     map.put("username", myUsername);
                     LoginActivity.getInstance().c.sendRequest("GET_PROFILE_REQUEST",map);
                 }
             });
-
             return rootView;
         }
     }
@@ -642,7 +613,6 @@ public class TabbedActivity extends AppCompatActivity implements
         public static MyTrainerFragment instance;
         TextView instructions;
         Spinner spinner;
-
         int currentStep;
         HashMap<String, Routine> routines;
 
@@ -665,6 +635,7 @@ public class TabbedActivity extends AppCompatActivity implements
         }
 
         public void addRoutines(){
+            //create all of the routines for the trainer
             ArrayList<Step> steps = new ArrayList<Step>();
             steps.add(new Step("Do 5 pullups.", false));
             steps.add(new Step("Plank for 20 seconds", true));
@@ -692,9 +663,6 @@ public class TabbedActivity extends AppCompatActivity implements
             Routine r3 = new Routine(steps);
             routines.put("Advanced", r3);
 
-
-
-
         }
 
         @Override
@@ -705,7 +673,6 @@ public class TabbedActivity extends AppCompatActivity implements
             addRoutines();
 
             currentStep = 0;
-
 
             View rootView = inflater.inflate(R.layout.my_trainer_fragment, container, false);
 
@@ -720,15 +687,20 @@ public class TabbedActivity extends AppCompatActivity implements
 
             instructions = (TextView) rootView.findViewById(R.id.instructions);
 
+            //set the spinner text, default is beginner
             if(spinner.isSelected()){
                 level = spinner.getSelectedItem().toString();
-            }else {
+            }
+            else{
                 level = "Beginner";
             }
+
+            //set up timer
             timer = (Chronometer)rootView.findViewById(R.id.chronometer);
             timer.setBase(SystemClock.elapsedRealtime());
             time = 0;
             running = false;
+            //tap on timer to start/ stop
             timer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -744,6 +716,7 @@ public class TabbedActivity extends AppCompatActivity implements
                     }
                 }
             });
+            //long click on timer to reset
             timer.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -756,16 +729,21 @@ public class TabbedActivity extends AppCompatActivity implements
         }
 
         public void updateView(Step s){
+            //display the workout instructions and timer if is a timed activity
             instructions.setText(s.instruction);
             if(s.timed){
                 timer.setVisibility(View.VISIBLE);
-            }else{
+            }
+            else{
                 timer.setVisibility(View.INVISIBLE);
             }
         }
     }
+
     public void nextClicked(View v){
         Routine r = MyTrainerFragment.getInstance().routines.get(MyTrainerFragment.getInstance().spinner.getSelectedItem().toString());
+
+        //show next or notify done routine
         if(MyTrainerFragment.getInstance().currentStep == r.steps.size()){
             Toast t = Toast.makeText(this, "You finished this training routine!", Toast.LENGTH_LONG);
             t.show();
@@ -774,7 +752,6 @@ public class TabbedActivity extends AppCompatActivity implements
         Step s = r.steps.get(MyTrainerFragment.getInstance().currentStep);
         MyTrainerFragment.getInstance().updateView(s);
         MyTrainerFragment.getInstance().currentStep++;
-
     }
 
 
@@ -825,6 +802,7 @@ public class TabbedActivity extends AppCompatActivity implements
 
         @Override
         public Fragment getItem(int position) {
+            //return the correct fragments for each tab
             switch (position){
                 case NEARBY_GYMS:
                     return NearbyGymsFragment.newInstance();
@@ -851,9 +829,7 @@ public class TabbedActivity extends AppCompatActivity implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Log.i("2601", marker.getTitle());
-        Log.i("2601", marker.getId());
-
+        Log.i("2601", "marker title:"+marker.getTitle() + " marker id:" + marker.getId());
         marker.showInfoWindow();
         return false;
     }
@@ -868,14 +844,13 @@ public class TabbedActivity extends AppCompatActivity implements
             marker.setIcon(b);
             marker.setSnippet("Tap to add to favourites");
             gyms.put(marker.getTitle(),false);
-        }else {
-
+        }
+        else {
             //Add to favourites
             BitmapDescriptor b = BitmapDescriptorFactory.fromResource(R.drawable.climbericongold);
             marker.setIcon(b);
             marker.setSnippet("Tap to remove from favourites");
             gyms.put(marker.getTitle(),true);
-
         }
     }
 

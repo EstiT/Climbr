@@ -1,13 +1,7 @@
 package edu.carleton.comp2601.climbr;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,10 +11,8 @@ import org.json.JSONObject;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +70,8 @@ public class Connection {
 
             Log.i("2601", "Writing object. event: " + e.type);
             e.putEvent();
-        }catch (Exception e){
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -104,7 +97,7 @@ public class Connection {
                     //check if new or existing user
                     String status = (String) e.get("status");
                     if(status.equals("new")){
-//                        redirect to create new profile
+                        //redirect to create new profile
                         Intent i = new Intent(LoginActivity.getInstance().getApplicationContext(), UserOnboardActivity.class);
                         i.putExtra("password", LoginActivity.getInstance().mPasswordView.getText().toString());
                         i.putExtra("email", LoginActivity.getInstance().mEmailView.getText().toString());
@@ -125,6 +118,7 @@ public class Connection {
                         catch(Exception ex){
                             ex.printStackTrace();
                         }
+                        //give Tabbed activity the username
                         i.putExtra("username", LoginActivity.getInstance().mEmailView.getText().toString().split("@")[0]);
                         hasSetInfo = true;
                         LoginActivity.getInstance().startActivity(i);
@@ -146,27 +140,22 @@ public class Connection {
             }
         });
 
+
         r.register("PROFILE_RESPONSE", new EventHandler() {
             @Override
             public void handleEvent(Event e) {
                 Log.i("2601", "Handling PROFILE_RESPONSE");
                 try{
                     final String profiles = (String) e.get("profiles");
-                    //Log.i("2601", profile);
-
-
                     JSONArray obj = new JSONArray(profiles);
-                    //Log.i("2601", obj.toString());
-                    //Log.i("2601", (String)obj.get("bio"));
 
                     for(int i=0;i<obj.length();i++){
                         String jsonString = obj.getString(i);
 
                         final JSONObject json = new JSONObject(jsonString);
-                        //add to datafill
+                        //add to data fill
 
                         final File file = File.createTempFile((String)json.get("username"), null, TabbedActivity.getInstance().getCacheDir());
-
 
                         FileWriter fw = new FileWriter(file.getAbsoluteFile());
                         BufferedWriter bw = new BufferedWriter(fw);
@@ -177,6 +166,7 @@ public class Connection {
                             @Override
                             public void run() {
                                 try {
+                                    //only add profile to resources if not their own
                                     if(!json.get("username").equals(TabbedActivity.getInstance().myUsername)){
                                         bioResources.add((String) json.get("bio"));
                                         nameResources.add((String) json.get("username"));
@@ -184,27 +174,23 @@ public class Connection {
                                         mResources.add(file);
                                     }
                                     else{
+                                        //otherwise save the fields
                                         myImage = file;
                                         bio = json.get("bio").toString();
                                         maxPullups = json.get("maxPullups").toString();
                                         maxGrade = json.get("maxGrade").toString();
                                         age = json.get("age").toString();
                                     }
-                                }catch(Exception ex){
+                                }
+                                catch(Exception ex){
                                     ex.printStackTrace();
                                 }
-
-                                Log.i("2601", "Notifying pageadapter");
+                                Log.i("2601", "Notifying pagAadapter");
                                 CustomPagerAdapter.getInstance().notifyDataSetChanged();
                             }
                         });
-
                         //CustomPagerAdapter.getInstance().notifyDataSetChanged();
-
                     }
-
-
-
                     TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -215,9 +201,9 @@ public class Connection {
                 catch(Exception ex){
                     ex.printStackTrace();
                 }
-
             }
         });
+
 
         r.register("UPDATE_PROFILE_RESPONSE", new EventHandler() {
             @Override
@@ -230,7 +216,6 @@ public class Connection {
                         //redirect to tabbed activity, send user name as extra
                         Intent i = new Intent(UserOnboardActivity.getInstance().getApplicationContext(), TabbedActivity.class);
                         i.putExtra("from","UserOnboard");
-//                        Log.i("COMP 2601", "Profile: "+ e.get("profile").toString());
                         try{
                             //save user fields
                             JSONObject profileObject = new JSONObject(e.get("profile").toString());
@@ -263,6 +248,7 @@ public class Connection {
             }
         });
 
+
         r.register("MESSAGE_RESPONSE", new EventHandler() {
             @Override
             public void handleEvent(Event e) {
@@ -270,28 +256,28 @@ public class Connection {
                 //check if success or fail
                 try{
                     String err = (String) e.get("error");
-
                     if(err.equals("none")) {
                         final String msg = (String) e.get("message");
                         final String sender = (String) e.get("sender");
-                        //Log.i("2601", "sender: "+sender+" musername: " +TabbedActivity.myUsername);
 
                         TabbedActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if(!sender.equals(TabbedActivity.myUsername)) {
                                     TabbedActivity.recipient = sender;
+                                    //bring user to messaging/connect tab
                                     TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).select();
+                                    //tell the user who they are messaging
                                     TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging " + sender);
+                                    //change message tab icon to show notification
                                     TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).setIcon(ResourcesCompat.getDrawable(TabbedActivity.getInstance().getResources(), R.drawable.ic_chat_white_notify, null));
                                 }
                                 TabbedActivity.ConnectFragment.getInstance().addMsg(msg);
                             }
                         });
-
                         Log.i("2601", "msg: " + msg);
-
-                    }else{
+                    }
+                    else{
                         //toast TODO
                         Log.i("2601", "Error in messaging:  " + err);
                     }
@@ -301,6 +287,7 @@ public class Connection {
                 }
             }
         });
+
 
         r.register("GET_PROFILE_RESPONSE", new EventHandler() {
             @Override
@@ -319,19 +306,19 @@ public class Connection {
                 catch(Exception ex){
                     ex.printStackTrace();
                 }
-
                 LoginActivity.getInstance().startActivity(i);
             }
         });
+
 
         r.register("DISCONNECT_RESPONSE", new EventHandler() {
             @Override
             public void handleEvent(Event e) {
                 Log.i("Connection", "Handling DISCONNECT RESPONSE");
-
             }
         });
     }
+
 
     public void sendRequest(final String type, final HashMap<String ,Serializable> data){
         Thread t = new Thread(new Runnable() {
@@ -351,7 +338,8 @@ public class Connection {
                     Log.i("2601", "Writing object. event: " + e.type);
                     //send the event
                     e.putEvent();
-                }catch (Exception ex){
+                }
+                catch (Exception ex){
                     ex.printStackTrace();
                 }
             }

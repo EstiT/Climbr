@@ -1,13 +1,9 @@
 package edu.carleton.comp2601.climbr;
 
-import android.app.TabActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -65,7 +58,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         name = (TextView)itemView.findViewById(R.id.name);
         final int pos = position;
 
-
+        //get image from file
         File file = TabbedActivity.FindBelayerFragment.mResources.get(position);
         try {
             FileReader fr = new FileReader(file.getAbsoluteFile());
@@ -77,11 +70,11 @@ public class CustomPagerAdapter extends PagerAdapter {
                 text.append('\n');
             }
             String pureBase64Encoded = text.toString();
-            //Log.i("2601", "Read from file: " + pureBase64Encoded);
+            //Read from file pureBase64Encoded
             br.close();
             final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
             Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-            //Log.i("2601 ", "setting image: " + decodedBitmap);
+            //setting image
             imageView.setImageBitmap(decodedBitmap);
         }
         catch(Exception e){
@@ -92,15 +85,16 @@ public class CustomPagerAdapter extends PagerAdapter {
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                //bring user to message the selected profile
                 Log.i("CustomPageAdapter","profile picture was long clicked");
                 TabbedActivity.recipient = TabbedActivity.FindBelayerFragment.nameResources.get(pos);
                 TabbedActivity.ConnectFragment.getInstance().changeTitle("Messaging "+ TabbedActivity.recipient);
-                //Log.i("2601", "name "+ (String)name.getText() + " \nnameresource" + TabbedActivity.FindBelayerFragment.nameResources[pos]);
                 TabbedActivity.getInstance().tabLayout.getTabAt(TabbedActivity.getInstance().CONNECT).select();
                 return true;
             }
         });
 
+        //customize UI
         TextView bio = (TextView)itemView.findViewById(R.id.bio);
         bio.setText(TabbedActivity.FindBelayerFragment.bioResources.get(position));
         bio.setTextSize(16.0f);
