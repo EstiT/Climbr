@@ -3,7 +3,7 @@
 <b> 
 Carleton COMP 2601 App Dev Final Project
 <br>
-By Esti Tweg and Olivia Perryman
+By <a href="https://github.com/EstiT" >Esti Tweg</a> and <a href="https://github.com/oliviaperryman" >Olivia Perryman</a>
 
  </b>
 
